@@ -1,10 +1,26 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-const routes: Routes = [];
+import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component";
+
+import { DashboardComponent } from "./dashboard/dashboard.component";
+
+import { LoginComponent } from "./login/login.component";
+
+const routes: Routes = [
+  // Main layout
+  {
+    path: "",
+    component: LayoutMainComponent,
+    children: [{ path: "", component: DashboardComponent, pathMatch: "full" }]
+  },
+
+  // No layout
+  { path: "login", component: LoginComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
