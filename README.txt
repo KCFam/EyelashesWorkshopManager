@@ -10,3 +10,9 @@ ng add @angular/material
 HammerJS
 Animation
 
+
+ng update @angular/cli @angular/core
+
+npm audit fix --force
+
+npm install @material/top-app-bar
