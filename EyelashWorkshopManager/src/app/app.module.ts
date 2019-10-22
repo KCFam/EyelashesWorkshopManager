@@ -14,6 +14,7 @@ import { LayoutMainComponent } from './_layout/layout-main/layout-main.component
 import { LayoutFooterComponent } from './_layout/layout-footer/layout-footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, LayoutHeaderComponent, LayoutMainComponent, LayoutFooterComponent, DashboardComponent, LoginComponent],
@@ -23,7 +24,8 @@ import { LoginComponent } from './login/login.component';
     // ng-bootstrap
     NgbModule,
     // material angular
-    MatButtonModule
+    MatButtonModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
