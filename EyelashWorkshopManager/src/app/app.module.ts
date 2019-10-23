@@ -21,6 +21,7 @@ import { LayoutFooterComponent } from "./_layout/layout-footer/layout-footer.com
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LoginComponent } from "./login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NewStaffComponent } from './staff/new-staff/new-staff.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     LayoutMainComponent,
     LayoutFooterComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    NewStaffComponent
   ],
   imports: [
     BrowserModule,
