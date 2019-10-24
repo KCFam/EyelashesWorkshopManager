@@ -20,6 +20,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 // Pages
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
@@ -55,7 +57,9 @@ import { AngularFireModule } from "@angular/fire";
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]
