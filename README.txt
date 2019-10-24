@@ -16,3 +16,5 @@ ng update @angular/cli @angular/core
 npm audit fix --force
 
 npm install @material/top-app-bar
+
+npm install firebase @angular/fire --save

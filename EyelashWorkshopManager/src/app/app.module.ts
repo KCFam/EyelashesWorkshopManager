@@ -4,6 +4,13 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+// firebase
+import {
+  AngularFirestoreModule,
+  AngularFirestore
+} from "@angular/fire/firestore";
+import { environment } from "../environments/environment";
+
 // ng-bootstrap
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -21,7 +28,8 @@ import { LayoutFooterComponent } from "./_layout/layout-footer/layout-footer.com
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LoginComponent } from "./login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NewStaffComponent } from './staff/new-staff/new-staff.component';
+import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
+import { AngularFireModule } from "@angular/fire";
 
 @NgModule({
   declarations: [
@@ -37,6 +45,9 @@ import { NewStaffComponent } from './staff/new-staff/new-staff.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    // Firebase
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     // ng-bootstrap
     NgbModule,
     // material angular
@@ -46,7 +57,7 @@ import { NewStaffComponent } from './staff/new-staff/new-staff.component';
     MatIconModule,
     MatListModule
   ],
-  providers: [],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
