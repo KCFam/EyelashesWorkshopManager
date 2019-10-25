@@ -7,6 +7,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 
 import { LoginComponent } from "./login/login.component";
 import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
+import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 
 const routes: Routes = [
   // Main layout
@@ -15,7 +16,8 @@ const routes: Routes = [
     component: LayoutMainComponent,
     children: [
       { path: "", component: DashboardComponent, pathMatch: "full" },
-      { path: "new-staff", component: NewStaffComponent }
+      { path: "new-staff", component: NewStaffComponent },
+      { path: "view-staff", component: ViewStaffComponent }
     ]
   },
 

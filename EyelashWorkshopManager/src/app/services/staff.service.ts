@@ -10,9 +10,14 @@ export class StaffService {
 
   // add new staff
   addStaff(newStaff: StaffModel) {
-    let staffsRef = this.db.collection("staffs");
-    let transaction = this.db.firestore.runTransaction(t => {
-      return t.get(staffsRef).then(doc => {});
-    });
+    let staffsRef = this.db
+      .collection("staffs")
+      .add({ ...newStaff })
+      .then(ref => {
+        console.log("Added staff with ID: ", ref.id);
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
   }
 }

@@ -34,6 +34,7 @@ import { LoginComponent } from "./login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
 import { AngularFireModule } from "@angular/fire";
+import { ViewStaffComponent } from './staff/view-staff/view-staff.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AngularFireModule } from "@angular/fire";
     LayoutFooterComponent,
     DashboardComponent,
     LoginComponent,
-    NewStaffComponent
+    NewStaffComponent,
+    ViewStaffComponent
   ],
   imports: [
     BrowserModule,

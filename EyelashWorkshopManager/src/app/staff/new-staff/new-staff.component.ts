@@ -3,6 +3,7 @@ import { AppService } from "src/app/services/app.service";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { StaffModel } from "src/app/models/staff";
 import { LashToolService } from "src/app/services/lashtool.service";
+import { StaffService } from "src/app/services/staff.service";
 
 @Component({
   selector: "app-new-staff",
@@ -22,7 +23,8 @@ export class NewStaffComponent implements OnInit {
 
   constructor(
     private appService: AppService,
-    private lashToolService: LashToolService
+    public lashToolService: LashToolService,
+    private staffService: StaffService
   ) {
     this.appService.pageTitle = "Thêm Thợ Mới";
 
@@ -47,8 +49,8 @@ export class NewStaffComponent implements OnInit {
     newStaff.note = this.staffForm.get("note").value;
 
     // Submit data to database
-    console.log(newStaff);
-
+    this.staffService.addStaff(newStaff);
+    console.log("Success");
     // Return redirect url
   }
 }
