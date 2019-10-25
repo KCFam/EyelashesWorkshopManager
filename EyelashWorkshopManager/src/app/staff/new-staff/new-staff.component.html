@@ -1,132 +1,149 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <mat-form-field class="col-12 phone">
-        <input
-          matInput
-          type="tel"
-          [formControl]="formControlPhone"
-          required
-          [(ngModel)]="staff.phone"
-        />
-        <mat-label class="phone"
-          ><mat-icon matSuffix>phone_iphone</mat-icon>Phone</mat-label
-        >
-        <mat-error *ngIf="formControlPhone.invalid"
-          >Nhập một số bất kì nếu không có phone</mat-error
-        >
-        <button
-          mat-button
-          *ngIf="staff.phone"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="staff.phone = ''"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+  <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="col-12 phone">
+          <input matInput type="tel" formControlName="phone" required />
+          <mat-label class="phone"
+            ><mat-icon matSuffix>phone_iphone</mat-icon>Phone</mat-label
+          >
+          <mat-error *ngIf="staffForm.controls['phone'].invalid"
+            >Nhập số bất kì nếu không có phone</mat-error
+          >
+          <button
+            mat-button
+            *ngIf="staffForm.controls['phone'].value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="staffForm.controls['phone'].setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-12">
-          <mat-form-field class="col-12 name">
-            <input
-              matInput
-              type="text"
-              [formControl]="formControlName"
-              required
-              [(ngModel)]="staff.name"
-            />
-            <mat-label class="name"
-              ><mat-icon matSuffix>face</mat-icon>Tên</mat-label
-            >
-            <mat-error *ngIf="formControlName.invalid"
-              >Tên nhân viên không thể trống.</mat-error
-            >
-            <button
-              mat-button
-              *ngIf="staff.name"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="staff.name = ''"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <mat-form-field class="col-12 address">
-            <input matInput type="text" [(ngModel)]="staff.address" />
-            <mat-label class="name"
-              ><mat-icon matSuffix>my_location</mat-icon>Địa chỉ</mat-label
-            >
-            <button
-              mat-button
-              *ngIf="staff.address"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="staff.address = ''"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <mat-form-field class="col-12 credit">
-            <input
-              matInput
-              placeholder="Tiền quỹ"
-              type="number"
-              [(ngModel)]="staff.credit"
-              onClick="this.select()"
-            />
-            <span matPrefix>$&nbsp;</span>
-            <span matSuffix>ngàn</span>
-            <button
-              mat-button
-              *ngIf="staff.credit"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="staff.credit = 0"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-        <div class="col-6">
-          <mat-form-field class="col-12 credit">
-            <mat-label>Khuôn Giao</mat-label>
-            <mat-select [formControl]="formControlLashTool" multiple>
-              <mat-option
-                *ngFor="let lashTool of lashToolList"
-                [value]="lashTool"
-                >{{ lashTool }}</mat-option
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field class="col-12 name">
+              <input matInput type="text" formControlName="name" required />
+              <mat-label class="name"
+                ><mat-icon matSuffix>face</mat-icon>Tên</mat-label
               >
-            </mat-select>
-          </mat-form-field>
+              <mat-error *ngIf="staffForm.controls['name'].invalid"
+                >Tên không được để trống</mat-error
+              >
+              <button
+                mat-button
+                *ngIf="staffForm.controls['name'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="staffForm.controls['name'].setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field class="col-12 address">
+              <input matInput type="text" formControlName="address" />
+              <mat-label class="name"
+                ><mat-icon matSuffix>my_location</mat-icon>Địa chỉ</mat-label
+              >
+              <button
+                mat-button
+                *ngIf="staffForm.controls['address'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="staffForm.controls['credit'].setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field class="col-12 credit">
+              <input
+                matInput
+                placeholder="Tiền quỹ"
+                type="number"
+                formControlName="credit"
+                onClick="this.select()"
+              />
+              <span matPrefix>$&nbsp;</span>
+              <span matSuffix>ngàn</span>
+              <button
+                mat-button
+                *ngIf="staffForm.controls['credit'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="staffForm.controls['credit'].setValue(0)"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="col-12 lashTool">
+              <mat-label>Khuôn giao</mat-label>
+              <mat-select formControlName="lashTool" multiple>
+                <mat-option
+                  *ngFor="let lashTool of lashToolService.lashToolList"
+                  [value]="lashTool"
+                  >{{ lashTool }}</mat-option
+                >
+              </mat-select>
+              <button
+                mat-button
+                *ngIf="staffForm.controls['lashTool'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="staffForm.controls['lashTool'].setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
       </div>
+      <div class="col-md-6">
+        <mat-form-field class="col-12 note">
+          <textarea
+            matInput
+            placeholder="Ghi chú"
+            rows="8"
+            formControlName="note"
+          ></textarea>
+          <button
+            mat-button
+            *ngIf="staffForm.controls['note'].value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="staffForm.controls['note'].setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-md-6">
-      <mat-form-field class="col-12 note">
-        <textarea matInput placeholder="Ghi chú" rows="8"></textarea>
-      </mat-form-field>
+    <div class="row">
+      <div class="col-12 text-right">
+        <button mat-raised-button color="primary" class="mr-2" type="submit">
+          Lưu
+        </button>
+        <button mat-raised-button color="warn" [routerLink]="['']">Hủy</button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12 text-right">
-      <button mat-raised-button color="primary" class="mr-2">Lưu</button>
-      <button mat-raised-button color="warn" class="">Hủy</button>
-    </div>
-  </div>
+  </form>
 </div>
