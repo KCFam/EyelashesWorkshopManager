@@ -8,6 +8,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LoginComponent } from "./login/login.component";
 import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
 import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
+import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 
 const routes: Routes = [
   // Main layout
@@ -17,7 +18,8 @@ const routes: Routes = [
     children: [
       { path: "", component: DashboardComponent, pathMatch: "full" },
       { path: "new-staff", component: NewStaffComponent },
-      { path: "view-staff", component: ViewStaffComponent }
+      { path: "view-staff", component: ViewStaffComponent },
+      { path: "edit-staff/:id", component: EditStaffComponent }
     ]
   },
 

@@ -4,6 +4,11 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  Location,
+  LocationStrategy,
+  PathLocationStrategy
+} from "@angular/common";
 
 // firebase
 import {
@@ -24,6 +29,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import { MatChipsModule } from "@angular/material/chips";
 
 // Pages
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
@@ -34,7 +40,8 @@ import { LoginComponent } from "./login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
 import { AngularFireModule } from "@angular/fire";
-import { ViewStaffComponent } from './staff/view-staff/view-staff.component';
+import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
+import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +52,8 @@ import { ViewStaffComponent } from './staff/view-staff/view-staff.component';
     DashboardComponent,
     LoginComponent,
     NewStaffComponent,
-    ViewStaffComponent
+    ViewStaffComponent,
+    EditStaffComponent
   ],
   imports: [
     BrowserModule,
@@ -66,9 +74,14 @@ import { ViewStaffComponent } from './staff/view-staff/view-staff.component';
     MatListModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ],
-  providers: [AngularFirestore],
+  providers: [
+    AngularFirestore,
+    Location,
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ export class StaffModel {
   phone: string = "";
   name: string = "";
   address: string = "";
-  lashTool: string = "";
+  lashTool: Array<string>;
   credit: number = 0;
   note: string = "";
 }

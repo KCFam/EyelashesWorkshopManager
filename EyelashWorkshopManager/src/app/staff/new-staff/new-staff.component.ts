@@ -4,6 +4,7 @@ import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { StaffModel } from "src/app/models/staff";
 import { LashToolService } from "src/app/services/lashtool.service";
 import { StaffService } from "src/app/services/staff.service";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-new-staff",
@@ -24,9 +25,10 @@ export class NewStaffComponent implements OnInit {
   constructor(
     private appService: AppService,
     public lashToolService: LashToolService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private location: Location
   ) {
-    this.appService.pageTitle = "Thêm Thợ Mới";
+    this.appService.pageTitle = "Thông Tin Thợ";
 
     // Set form default value
   }
@@ -50,7 +52,12 @@ export class NewStaffComponent implements OnInit {
 
     // Submit data to database
     this.staffService.addStaff(newStaff);
-    console.log("Success");
+
     // Return redirect url
+    this.location.back();
+  }
+
+  onCancel() {
+    this.location.back();
   }
 }
