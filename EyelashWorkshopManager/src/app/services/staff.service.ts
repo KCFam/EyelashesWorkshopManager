@@ -3,12 +3,16 @@ import { StaffModel } from "../models/staff";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { resolve } from "q";
 import { database } from "firebase";
+import { ModelRefService } from "./model-ref.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class StaffService {
-  constructor(private db: AngularFirestore) {}
+  constructor(
+    private db: AngularFirestore,
+    private modelRefService: ModelRefService
+  ) {}
 
   // add new staff
   addStaff(newStaff: StaffModel) {
@@ -17,6 +21,8 @@ export class StaffService {
       .collection("staffs")
       .add({ ...newStaff })
       .then(ref => {
+        newStaff.id = ref.id;
+        this.modelRefService.updateStaffRef(newStaff);
         console.log("Added staff with ID: ", ref.id);
       })
       .catch(err => {
@@ -61,6 +67,10 @@ export class StaffService {
       .collection("staffs")
       .doc(id)
       .update(staff)
+      .then(snapshot => {
+        staff.id = id;
+        this.modelRefService.updateStaffRef(staff);
+      })
       .catch(err => {
         console.log("Failed to update document", err);
       });

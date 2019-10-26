@@ -1,0 +1,37 @@
+<div class="container">
+  <form [formGroup]="staffTransactionFormGroup" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field style="width:100%">
+          <mat-label class="search-staff"
+            ><mat-icon matSuffix>search</mat-icon>Tìm nhân viên</mat-label
+          >
+          <input
+            type="text"
+            matInput
+            formControlName="searchStaff"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            [displayWith]="displayFn"
+          >
+            <mat-option
+              *ngFor="let option of staffFilteredOptions | keyvalue"
+              [value]="option.key"
+            >
+              <div>
+                <div style="display:inline-block;width:30%">
+                  <mat-icon>phone_iphone</mat-icon>{{ option.value["phone"] }}
+                </div>
+                <mat-icon>face</mat-icon>{{ option.value["name"] }}
+                <span></span>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>

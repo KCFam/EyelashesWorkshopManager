@@ -30,6 +30,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 // Pages
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
@@ -42,6 +43,7 @@ import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
 import { AngularFireModule } from "@angular/fire";
 import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
+import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
     LoginComponent,
     NewStaffComponent,
     ViewStaffComponent,
-    EditStaffComponent
+    EditStaffComponent,
+    StaffTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [
     AngularFirestore,

@@ -3,8 +3,8 @@
     <div class="col">
       <mat-form-field>
         <input matInput [(ngModel)]="searchText" (keyup)="onSearchChange()" />
-        <mat-label class="phone"
-          ><mat-icon matSuffix>search</mat-icon>Tìm thợ</mat-label
+        <mat-label class="search-staff"
+          ><mat-icon matSuffix>search</mat-icon>Tìm nhân viên</mat-label
         >
         <button
           mat-button
@@ -20,8 +20,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4" *ngFor="let staff of searchedStaffs">
-      <div class="card">
+    <div class="col-lg-4" *ngFor="let staff of searchedStaffs">
+      <div class="card mb-2">
         <div class="card-body">
           <h5 class="card-title">
             <mat-icon>face</mat-icon>

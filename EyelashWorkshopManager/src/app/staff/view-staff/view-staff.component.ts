@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { StaffService } from "src/app/services/staff.service";
 import { StaffModel } from "src/app/models/staff";
+import { AppService } from "src/app/services/app.service";
 
 @Component({
   selector: "app-view-staff",
@@ -12,7 +13,12 @@ export class ViewStaffComponent implements OnInit {
   searchText: string = "";
   searchedStaffs: StaffModel[];
 
-  constructor(private staffService: StaffService) {
+  constructor(
+    private appService: AppService,
+    private staffService: StaffService
+  ) {
+    this.appService.pageTitle = "Thông Tin Thợ";
+
     this.staffs = this.staffService.getStaffs();
     this.searchedStaffs = this.staffs;
   }
