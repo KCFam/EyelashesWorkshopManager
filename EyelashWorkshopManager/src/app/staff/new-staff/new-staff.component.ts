@@ -22,6 +22,8 @@ export class NewStaffComponent implements OnInit {
     note: new FormControl()
   });
 
+  lashTools: string[] = new Array(); // lash tool select list
+
   constructor(
     private appService: AppService,
     public lashToolService: LashToolService,
@@ -30,7 +32,24 @@ export class NewStaffComponent implements OnInit {
   ) {
     this.appService.pageTitle = "Thông Tin Thợ";
 
-    // Set form default value
+    // Get lash tool list from services
+    this.lashToolService
+      .getLashToolsOnce()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("Error no lash tool ref document");
+        } else {
+          Object.keys(doc.data()).forEach(key => {
+            this.lashTools.push(key);
+          });
+          console.log(this.lashTools);
+        }
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
+
+    console.log(this.lashTools);
   }
 
   ngOnInit() {}

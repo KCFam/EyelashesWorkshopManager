@@ -7,4 +7,12 @@ export class AppService {
   pageTitle = "";
 
   constructor() {}
+
+  getPageTitle(): string {
+    return this.pageTitle;
+  }
+
+  setPageTitle(newTitle: string) {
+    this.pageTitle = newTitle;
+  }
 }

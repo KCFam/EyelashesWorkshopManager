@@ -7,3 +7,9 @@ export class StaffModel {
   credit: number = 0;
   note: string = "";
 }
+
+export class StaffRefModel {
+  id: string = "";
+  name: string = "";
+  phone: string = "";
+}

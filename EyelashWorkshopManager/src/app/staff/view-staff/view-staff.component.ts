@@ -19,7 +19,7 @@ export class ViewStaffComponent implements OnInit {
   ) {
     this.appService.pageTitle = "Thông Tin Thợ";
 
-    this.staffs = this.staffService.getStaffs();
+    this.staffs = this.staffService.getStaffsOnce();
     this.searchedStaffs = this.staffs;
   }
 

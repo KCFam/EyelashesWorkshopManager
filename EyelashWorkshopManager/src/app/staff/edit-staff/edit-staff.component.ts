@@ -39,18 +39,25 @@ export class EditStaffComponent implements OnInit {
 
     // get edit staff
     this.staffService
-      .getStaff(id)
-      .then(snapshot => {
-        this.editingStaff = snapshot.data() as StaffModel;
-        this.editingStaff.id = snapshot.id;
+      .getStaffRef(id)
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("No such document!");
+        } else {
+          console.log("Found document with ID", doc.id);
 
-        // Set value to form control
-        this.staffForm.get("phone").setValue(this.editingStaff.phone);
-        this.staffForm.get("name").setValue(this.editingStaff.name);
-        this.staffForm.get("address").setValue(this.editingStaff.address);
-        this.staffForm.get("credit").setValue(this.editingStaff.credit);
-        this.staffForm.get("lashTool").setValue(this.editingStaff.lashTool);
-        this.staffForm.get("note").setValue(this.editingStaff.note);
+          // Capture firestore doc data
+          this.editingStaff = doc.data() as StaffModel;
+          this.editingStaff.id = doc.id;
+
+          // Apply data to form control
+          this.staffForm.get("phone").setValue(this.editingStaff.phone);
+          this.staffForm.get("name").setValue(this.editingStaff.name);
+          this.staffForm.get("address").setValue(this.editingStaff.address);
+          this.staffForm.get("credit").setValue(this.editingStaff.credit);
+          this.staffForm.get("lashTool").setValue(this.editingStaff.lashTool);
+          this.staffForm.get("note").setValue(this.editingStaff.note);
+        }
       })
       .catch(err => {
         console.log("Error getting document", err);
