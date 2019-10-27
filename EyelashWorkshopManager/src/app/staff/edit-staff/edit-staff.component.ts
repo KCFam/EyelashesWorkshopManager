@@ -23,29 +23,29 @@ export class EditStaffComponent implements OnInit {
     note: new FormControl()
   });
 
-  editingStaff: StaffModel = new StaffModel();
+  editingStaff: StaffModel = new StaffModel(); // staff edit obj
+  lashTools: string[] = new Array(); // lash tool select list
 
   constructor(
     private appService: AppService,
-    public lashToolService: LashToolService,
+    private lashToolService: LashToolService,
     private staffService: StaffService,
     private location: Location,
     private activatedRoute: ActivatedRoute
   ) {
-    this.appService.pageTitle = "Chỉnh Thông Tin Thợ";
+    // Set page title
+    this.appService.setPageTitle("Chỉnh Thông Tin Thợ");
 
     // Get Staff ID from url
     let id = this.activatedRoute.snapshot.paramMap.get("id");
 
-    // get edit staff
+    // get edit staff from services
     this.staffService
       .getStaffRef(id)
       .then(doc => {
         if (!doc.exists) {
           console.log("No such document!");
         } else {
-          console.log("Found document with ID", doc.id);
-
           // Capture firestore doc data
           this.editingStaff = doc.data() as StaffModel;
           this.editingStaff.id = doc.id;
@@ -62,11 +62,28 @@ export class EditStaffComponent implements OnInit {
       .catch(err => {
         console.log("Error getting document", err);
       });
+
+    // Get lash tool list from services
+    this.lashToolService
+      .getLashToolsOnce()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("Error no lash tool ref document");
+        } else {
+          Object.keys(doc.data()).forEach(key => {
+            this.lashTools.push(key);
+          });
+        }
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
   }
 
   ngOnInit() {}
 
   onSubmit() {
+    // form invalid?
     if (this.staffForm.invalid) return;
 
     // Convert form data to model
@@ -88,6 +105,7 @@ export class EditStaffComponent implements OnInit {
   }
 
   onCancel() {
+    // Return redirect url
     this.location.back();
   }
 }

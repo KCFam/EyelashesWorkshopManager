@@ -123,4 +123,13 @@ export class StaffService {
         console.log("Error to add new staff", err);
       });
   }
+
+  // get staff ref as array of StaffRef
+  getStaffRefRef(): Promise<firebase.firestore.DocumentSnapshot> {
+    // return outout
+    return this.db.firestore
+      .collection("refs")
+      .doc("staffs")
+      .get();
+  }
 }

@@ -1,5 +1,6 @@
 <div class="container">
   <form [formGroup]="staffTransactionFormGroup" (ngSubmit)="onSubmit()">
+    <!--Search Staff-->
     <div class="row">
       <div class="col-md-6">
         <mat-form-field style="width:100%">
@@ -11,26 +12,78 @@
             matInput
             formControlName="searchStaff"
             [matAutocomplete]="auto"
+            required
           />
           <mat-autocomplete
             autoActiveFirstOption
             #auto="matAutocomplete"
-            [displayWith]="displayFn"
+            [displayWith]="staffSearchDisplayFn"
           >
             <mat-option
-              *ngFor="let option of staffFilteredOptions | keyvalue"
-              [value]="option.key"
+              *ngFor="let staffOption of staffRefOptions | async"
+              [value]="staffOption"
             >
               <div>
                 <div style="display:inline-block;width:30%">
-                  <mat-icon>phone_iphone</mat-icon>{{ option.value["phone"] }}
+                  <mat-icon>phone_iphone</mat-icon>{{ staffOption["phone"] }}
                 </div>
-                <mat-icon>face</mat-icon>{{ option.value["name"] }}
+                <mat-icon>face</mat-icon>{{ staffOption["name"] }}
                 <span></span>
               </div>
             </mat-option>
           </mat-autocomplete>
+          <button
+            mat-button
+            *ngIf="staffTransactionFormGroup.controls['searchStaff'].value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="
+              staffTransactionFormGroup.controls['searchStaff'].setValue('')
+            "
+          >
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
+      </div>
+    </div>
+    <!--Add Products actions-->
+    <div class="row">
+      <div class="col-4 pr-0">
+        <mat-form-field style="width:100%">
+          <mat-label>Loại khuôn</mat-label>
+          <mat-select formControlName="lashTool" required>
+            <mat-option *ngFor="let lashTool of lashTools" [value]="lashTool">
+              {{ lashTool }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field>
+          <mat-label>Loại tóc</mat-label>
+          <mat-select formControlName="hairType" required>
+            <mat-option *ngFor="let hairType of hairTypes" [value]="hairType">
+              {{ hairType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!--Form actions-->
+    <div class="row">
+      <div class="col-12 text-right">
+        <button mat-raised-button color="primary" class="mr-2" type="submit">
+          Lưu
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="reset"
+          (click)="onCancel()"
+        >
+          Hủy
+        </button>
       </div>
     </div>
   </form>

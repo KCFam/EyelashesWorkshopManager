@@ -2,9 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { AppService } from "../services/app.service";
 import { StaffModel, StaffRefModel } from "../models/staff";
 import { StaffService } from "../services/staff.service";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { LashToolService } from "../services/lashtool.service";
+import { HairService } from "../services/hair.service";
 
 @Component({
   selector: "app-staff-transaction",
@@ -12,75 +14,102 @@ import { map, startWith } from "rxjs/operators";
   styleUrls: ["./staff-transaction.component.scss"]
 })
 export class StaffTransactionComponent implements OnInit {
+  // create form control
   staffTransactionFormGroup = new FormGroup({
-    searchStaff: new FormControl()
+    searchStaff: new FormControl("", [Validators.required]),
+    lashTool: new FormControl("", [Validators.required]),
+    hairType: new FormControl("", [Validators.required])
   });
 
-  staffFilteredOptions: StaffRefModel[] = new Array();
-  staffRefList: Object;
+  staffRefList: StaffRefModel[] = new Array(); // List of staff refs
+  staffRefOptions: Observable<StaffRefModel[]>; // Search Staff Result
+  lashTools: string[] = new Array(); // lash tool select list
+  hairTypes: string[] = new Array(); // hair types select list
 
-  constructor(private appService: AppService) {
-    this.appService.pageTitle = "Thêm Hàng Giao";
+  constructor(
+    private appService: AppService,
+    private staffService: StaffService,
+    private lashToolService: LashToolService,
+    private hairService: HairService
+  ) {
+    // set page title
+    this.appService.setPageTitle("Thêm Hàng Giao");
 
-    // Get staff ref list - Convert Document data to list of obj
-    // this.modelRefSevice
-    //   .getStaffRef()
-    //   .then(snapshot => {
-    //     this.staffRefList = snapshot.data();
-    //     // Copy default data to list
-    //     this.staffFilteredOptions = new Object();
-    //     Object.keys(this.staffRefList).forEach(key => {
-    //       if (key != null) {
-    //         this.staffFilteredOptions[key] = this.staffRefList[key];
-    //       }
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log("Error getting document ", err);
-    //   });
+    // Get lash tool list from services
+    this.lashToolService
+      .getLashToolsOnce()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("Error no lash tool ref document");
+        } else {
+          Object.keys(doc.data()).forEach(key => {
+            this.lashTools.push(key);
+          });
+        }
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
+
+    // Get hair types
+    this.hairService
+      .getHairTypesOnce()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log("No hair types ref document");
+        } else {
+          Object.keys(doc.data()).forEach(key => {
+            this.hairTypes.push(key);
+          });
+        }
+      })
+      .catch(err => {
+        console.log("Error getting document", err);
+      });
+
+    // Get staffs ref from services
+    this.staffService.getStaffRefRef().then(doc => {
+      if (!doc.exists) {
+        console.log("No staff ref");
+      } else {
+        Object.keys(doc.data()).forEach(key => {
+          let staffRef = new StaffRefModel();
+          staffRef.id = key;
+
+          staffRef.name = doc.data()[key]["name"];
+          staffRef.phone = doc.data()[key]["phone"];
+          this.staffRefList.push(staffRef);
+        });
+      }
+    });
+
+    // Listening search staff change
+    this.staffRefOptions = this.staffTransactionFormGroup
+      .get("searchStaff")
+      .valueChanges.pipe(
+        startWith(""),
+        map(value => (typeof value === "string" ? value : value.name)),
+        map(name => (name ? this._filter(name) : this.staffRefList.slice()))
+      );
   }
 
-  ngOnInit() {
-    this.onChange();
+  ngOnInit() {}
+
+  staffSearchDisplayFn(staffRef?: StaffRefModel): string | undefined {
+    return staffRef ? staffRef.name : undefined;
   }
 
-  onChange() {
-    // find staff change
-    // this.staffTransactionFormGroup
-    //   .get("searchStaff")
-    //   .valueChanges.subscribe(val => {
-    //     console.log(val);
-    //     if (!val.hasOwnProperty("value")) return;
-    //     this.staffFilteredOptions = new Object();
-    //     Object.keys(this.staffRefList).forEach(key => {
-    //       if (
-    //         key != null &&
-    //         this.staffRefList[key]["name"] != null &&
-    //         this.staffRefList[key]["name"]
-    //           .toLowerCase()
-    //           .indexOf(val["value"]["name"].toLowerCase()) > -1
-    //       ) {
-    //         this.staffFilteredOptions[key] = this.staffRefList[key];
-    //       }
-    //     });
-    //   });
+  private _filter(name: string): StaffRefModel[] {
+    const filterValue = name.toUpperCase();
+
+    return this.staffRefList.filter(
+      staffOption =>
+        staffOption.name.toUpperCase().indexOf(filterValue) === 0 ||
+        staffOption.phone.toUpperCase().indexOf(filterValue) === 0
+    );
   }
-
-  displayFn(obj?: Object): string | undefined {
-    console.log("ENN", obj);
-    console.log(this.staffRefList);
-    if (obj == null) return "";
-    if (!("name" in obj["value"])) return;
-    return obj["value"]["name"] ? obj["value"]["name"] : undefined;
-  }
-
-  // private _filter(name: string): User[] {
-  //   const filterValue = name.toLowerCase();
-
-  //   return this.options.filter(
-  //     option => option.name.toLowerCase().indexOf(filterValue) === 0
-  //   );
-  // }
 
   onSubmit() {}
+
+  onCancel() {}
 }

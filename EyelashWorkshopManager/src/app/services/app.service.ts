@@ -1,10 +1,20 @@
-import { Injectable } from "@angular/core";
+import {
+  Injectable,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter
+} from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AppService {
   pageTitle = "";
+
+  // Emitter for change event
+  pageTitleUpdated = new EventEmitter();
 
   constructor() {}
 
@@ -14,5 +24,6 @@ export class AppService {
 
   setPageTitle(newTitle: string) {
     this.pageTitle = newTitle;
+    this.pageTitleUpdated.emit(this.pageTitle);
   }
 }

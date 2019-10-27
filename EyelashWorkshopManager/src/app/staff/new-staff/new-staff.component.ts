@@ -26,11 +26,12 @@ export class NewStaffComponent implements OnInit {
 
   constructor(
     private appService: AppService,
-    public lashToolService: LashToolService,
+    private lashToolService: LashToolService,
     private staffService: StaffService,
     private location: Location
   ) {
-    this.appService.pageTitle = "Thông Tin Thợ";
+    // Set page title
+    this.appService.setPageTitle("Thêm Thợ Mới");
 
     // Get lash tool list from services
     this.lashToolService
@@ -42,14 +43,11 @@ export class NewStaffComponent implements OnInit {
           Object.keys(doc.data()).forEach(key => {
             this.lashTools.push(key);
           });
-          console.log(this.lashTools);
         }
       })
       .catch(err => {
         console.log("Error getting document", err);
       });
-
-    console.log(this.lashTools);
   }
 
   ngOnInit() {}

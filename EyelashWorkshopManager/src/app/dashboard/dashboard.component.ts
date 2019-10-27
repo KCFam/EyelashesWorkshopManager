@@ -8,7 +8,7 @@ import { AppService } from "../services/app.service";
 })
 export class DashboardComponent implements OnInit {
   constructor(private appService: AppService) {
-    this.appService.pageTitle = "Quản Lý";
+    this.appService.setPageTitle("Quản Lý");
   }
 
   ngOnInit() {}

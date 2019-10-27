@@ -17,16 +17,22 @@ export class ViewStaffComponent implements OnInit {
     private appService: AppService,
     private staffService: StaffService
   ) {
-    this.appService.pageTitle = "Thông Tin Thợ";
+    // Set page title
+    this.appService.setPageTitle("Thông Tin Thợ");
 
+    // Get Staffs from services
     this.staffs = this.staffService.getStaffsOnce();
+
     this.searchedStaffs = this.staffs;
   }
 
   ngOnInit() {}
 
   onSearchChange() {
+    // capture uppercase search text
     let searchText = this.searchText.toUpperCase();
+
+    // find all staff with search text for Name, Phone, address, tool or note
     if (searchText == "") this.searchedStaffs = this.staffs;
     else
       this.searchedStaffs = this.staffs.filter(staff => {

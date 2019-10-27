@@ -97,7 +97,7 @@
               <mat-label>Khuôn giao</mat-label>
               <mat-select formControlName="lashTool" multiple>
                 <mat-option
-                  *ngFor="let lashTool of lashToolService.lashToolList"
+                  *ngFor="let lashTool of lashTools"
                   [value]="lashTool"
                   >{{ lashTool }}</mat-option
                 >
@@ -142,7 +142,14 @@
         <button mat-raised-button color="primary" class="mr-2" type="submit">
           Lưu
         </button>
-        <button mat-raised-button color="warn" (click)="onCancel()">Hủy</button>
+        <button
+          mat-raised-button
+          color="warn"
+          type="reset"
+          (click)="onCancel()"
+        >
+          Hủy
+        </button>
       </div>
     </div>
   </form>

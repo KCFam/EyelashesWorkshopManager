@@ -8,18 +8,26 @@ import { AppService } from "src/app/services/app.service";
   styleUrls: ["./layout-main.component.scss"]
 })
 export class LayoutMainComponent implements OnInit {
+  // Mobile screen config
   mobileQuery: MediaQueryList;
-
   private _mobileQueryListener: () => void;
+
+  pageTitle: string = "";
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    public appService: AppService
+    private appService: AppService
   ) {
+    // Check for mobile device
     this.mobileQuery = media.matchMedia("(max-width: 600px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    // capture page title
+    this.appService.pageTitleUpdated.subscribe(pageTitle => {
+      this.pageTitle = this.appService.getPageTitle();
+    });
   }
 
   ngOnInit() {}
