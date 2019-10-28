@@ -118,12 +118,10 @@
       </div>
       <div class="col-md-6">
         <mat-form-field class="col-12 note">
-          <textarea
-            matInput
-            placeholder="Ghi chú"
-            rows="8"
-            formControlName="note"
-          ></textarea>
+          <textarea matInput rows="8" formControlName="note"></textarea>
+          <mat-label class="name"
+            ><mat-icon matSuffix>note</mat-icon>Ghi chú</mat-label
+          >
           <button
             mat-button
             *ngIf="staffForm.controls['note'].value"
@@ -141,6 +139,7 @@
     <div class="row">
       <div class="col-12 text-right">
         <button mat-raised-button color="primary" class="mr-2" type="submit">
+          <mat-icon>save</mat-icon>
           Lưu
         </button>
         <button
@@ -149,6 +148,7 @@
           type="reset"
           (click)="onCancel()"
         >
+          <mat-icon>cancel</mat-icon>
           Hủy
         </button>
       </div>

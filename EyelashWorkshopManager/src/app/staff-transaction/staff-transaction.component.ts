@@ -7,6 +7,10 @@ import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { LashToolService } from "../services/lashtool.service";
 import { HairService } from "../services/hair.service";
+import {
+  StaffTransactionModel,
+  StaffTransactionRowModel
+} from "../models/staff-transaction";
 
 @Component({
   selector: "app-staff-transaction",
@@ -18,7 +22,8 @@ export class StaffTransactionComponent implements OnInit {
   staffTransactionFormGroup = new FormGroup({
     searchStaff: new FormControl("", [Validators.required]),
     lashTool: new FormControl("", [Validators.required]),
-    hairType: new FormControl("", [Validators.required])
+    hairType: new FormControl("", [Validators.required]),
+    quantity: new FormControl("", [Validators.required, Validators.min(1)])
   });
 
   staffRefList: StaffRefModel[] = new Array(); // List of staff refs
@@ -26,16 +31,72 @@ export class StaffTransactionComponent implements OnInit {
   lashTools: string[] = new Array(); // lash tool select list
   hairTypes: string[] = new Array(); // hair types select list
 
+  staffTransaction: StaffTransactionModel = new StaffTransactionModel();
+  transactions: StaffTransactionRowModel[] = new Array();
+  displayedColumns: string[] = [
+    "itemName",
+    "quantity",
+    "pricePerItem",
+    "total"
+  ];
+
   constructor(
     private appService: AppService,
     private staffService: StaffService,
     private lashToolService: LashToolService,
     private hairService: HairService
   ) {
+    //TEST DATA
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+    this.transactions.push({
+      itemName: "3D-9mm-0.07",
+      quantity: 200,
+      pricePerItem: 100
+    });
+
     // set page title
     this.appService.setPageTitle("Thêm Hàng Giao");
 
-    // Get lash tool list from services
+    /* #region  Get lash tool list from services */
     this.lashToolService
       .getLashToolsOnce()
       .then(doc => {
@@ -50,8 +111,9 @@ export class StaffTransactionComponent implements OnInit {
       .catch(err => {
         console.log("Error getting document", err);
       });
+    /* #endregion */
 
-    // Get hair types
+    /* #region  Get hair types */
     this.hairService
       .getHairTypesOnce()
       .then(doc => {
@@ -66,8 +128,9 @@ export class StaffTransactionComponent implements OnInit {
       .catch(err => {
         console.log("Error getting document", err);
       });
+    /* #endregion */
 
-    // Get staffs ref from services
+    /* #region  Get staffs ref from services */
     this.staffService.getStaffRefRef().then(doc => {
       if (!doc.exists) {
         console.log("No staff ref");
@@ -82,8 +145,9 @@ export class StaffTransactionComponent implements OnInit {
         });
       }
     });
+    /* #endregion */
 
-    // Listening search staff change
+    /* #region  listening search staff change */
     this.staffRefOptions = this.staffTransactionFormGroup
       .get("searchStaff")
       .valueChanges.pipe(
@@ -91,10 +155,12 @@ export class StaffTransactionComponent implements OnInit {
         map(value => (typeof value === "string" ? value : value.name)),
         map(name => (name ? this._filter(name) : this.staffRefList.slice()))
       );
+    /* #endregion */
   }
 
   ngOnInit() {}
 
+  /* #region  Staff Search helper functions */
   staffSearchDisplayFn(staffRef?: StaffRefModel): string | undefined {
     return staffRef ? staffRef.name : undefined;
   }
@@ -108,8 +174,31 @@ export class StaffTransactionComponent implements OnInit {
         staffOption.phone.toUpperCase().indexOf(filterValue) === 0
     );
   }
+  /* #endregion */
 
-  onSubmit() {}
+  /* #region  helper function for transaction table summary */
+  getQuantityTotal(): number {
+    let sum: number = 0;
+    this.transactions.forEach(item => {
+      sum += item.quantity;
+    });
+    return sum;
+  }
 
-  onCancel() {}
+  getTotal(): number {
+    let sum: number = 0;
+    this.transactions.forEach(item => {
+      sum += item.quantity * item.pricePerItem;
+    });
+    return sum;
+  }
+  /* #endregion */
+
+  onSubmit() {
+    console.log("Submitted");
+  }
+
+  onCancel() {
+    console.log("Cancel");
+  }
 }

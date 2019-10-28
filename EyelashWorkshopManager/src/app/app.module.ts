@@ -31,6 +31,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatTableModule } from "@angular/material/table";
 
 // Pages
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
@@ -79,7 +80,8 @@ import { StaffTransactionComponent } from "./staff-transaction/staff-transaction
     MatInputModule,
     MatSelectModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule
   ],
   providers: [
     AngularFirestore,
