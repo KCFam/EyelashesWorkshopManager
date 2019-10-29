@@ -11,6 +11,7 @@ import {
   StaffTransactionModel,
   StaffTransactionRowModel
 } from "../models/staff-transaction";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-staff-transaction",
@@ -26,6 +27,8 @@ export class StaffTransactionComponent implements OnInit {
     quantity: new FormControl("", [Validators.required, Validators.min(1)])
   });
 
+  isTransactionActionsDisplay: boolean = false;
+
   staffRefList: StaffRefModel[] = new Array(); // List of staff refs
   staffRefOptions: Observable<StaffRefModel[]>; // Search Staff Result
   lashTools: string[] = new Array(); // lash tool select list
@@ -33,7 +36,9 @@ export class StaffTransactionComponent implements OnInit {
 
   staffTransaction: StaffTransactionModel = new StaffTransactionModel();
   transactions: StaffTransactionRowModel[] = new Array();
+  dataSource = new MatTableDataSource<StaffTransactionRowModel>();
   displayedColumns: string[] = [
+    "action",
     "itemName",
     "quantity",
     "pricePerItem",
@@ -46,53 +51,6 @@ export class StaffTransactionComponent implements OnInit {
     private lashToolService: LashToolService,
     private hairService: HairService
   ) {
-    //TEST DATA
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-    this.transactions.push({
-      itemName: "3D-9mm-0.07",
-      quantity: 200,
-      pricePerItem: 100
-    });
-
     // set page title
     this.appService.setPageTitle("Thêm Hàng Giao");
 
@@ -155,6 +113,11 @@ export class StaffTransactionComponent implements OnInit {
         map(value => (typeof value === "string" ? value : value.name)),
         map(name => (name ? this._filter(name) : this.staffRefList.slice()))
       );
+    this.staffTransactionFormGroup
+      .get("searchStaff")
+      .valueChanges.subscribe(value => {
+        this.isTransactionActionsDisplay = false;
+      });
     /* #endregion */
   }
 
@@ -193,6 +156,56 @@ export class StaffTransactionComponent implements OnInit {
     return sum;
   }
   /* #endregion */
+
+  onTransactionRemove(transaction) {
+    this.transactions.splice(this.transactions.indexOf(transaction), 1);
+    this.dataSource = new MatTableDataSource<StaffTransactionRowModel>(
+      this.transactions
+    );
+  }
+
+  onStaffSearchSelected(selectedStaff: StaffRefModel) {
+    // Sert flag to display transaction actions
+    this.isTransactionActionsDisplay = true;
+
+    // Clear form value in case it from the previous selected staff
+    this.staffTransactionFormGroup.controls["lashTool"].setValue("");
+    this.staffTransactionFormGroup.controls["hairType"].setValue("");
+    this.staffTransactionFormGroup.controls["quantity"].setValue(null);
+
+    // Clear transaction data
+    this.transactions = [];
+    this.dataSource = new MatTableDataSource<StaffTransactionRowModel>(
+      this.transactions
+    );
+  }
+
+  addTransaction() {
+    // Capture new transaction data
+    let newTransaction: StaffTransactionRowModel = {
+      itemName: (this.staffTransactionFormGroup.controls["lashTool"]
+        .value as string)
+        .replace(" ", "")
+        .concat("-", this.staffTransactionFormGroup.controls["hairType"].value),
+      quantity: this.staffTransactionFormGroup.controls["quantity"].value,
+      pricePerItem: 100
+    };
+
+    // If same item name exist, add the quantity otherwise add new data line
+    let itemNameIndex = this.transactions.findIndex(
+      value => value.itemName == newTransaction.itemName
+    );
+    if (itemNameIndex > -1) {
+      this.transactions[itemNameIndex].quantity += newTransaction.quantity;
+    } else {
+      this.transactions.push(newTransaction);
+    }
+
+    // refresh the datasouce
+    this.dataSource = new MatTableDataSource<StaffTransactionRowModel>(
+      this.transactions
+    );
+  }
 
   onSubmit() {
     console.log("Submitted");

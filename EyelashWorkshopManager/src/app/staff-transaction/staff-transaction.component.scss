@@ -1,4 +1,15 @@
 .transaction-container {
-  height: 65vh;
+  max-height: 65vh;
   overflow: auto;
+}
+
+.staff-search-result {
+  .phone {
+    display: inline-block;
+    width: 40%;
+  }
+
+  .name {
+    display: inline-block;
+  }
 }

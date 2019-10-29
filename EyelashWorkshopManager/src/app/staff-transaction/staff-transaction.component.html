@@ -15,6 +15,7 @@
             required
           />
           <mat-autocomplete
+            (optionSelected)="onStaffSearchSelected($event.option.value)"
             autoActiveFirstOption
             #auto="matAutocomplete"
             [displayWith]="staffSearchDisplayFn"
@@ -23,15 +24,25 @@
               *ngFor="let staffOption of staffRefOptions | async"
               [value]="staffOption"
             >
-              <div>
-                <div style="display:inline-block;width:30%">
+              <div class="staff-search-result">
+                <div class="phone">
                   <mat-icon>phone_iphone</mat-icon>{{ staffOption["phone"] }}
                 </div>
-                <mat-icon>face</mat-icon>{{ staffOption["name"] }}
-                <span></span>
+                <div class="name">
+                  <mat-icon>face</mat-icon>{{ staffOption["name"] }}
+                </div>
               </div>
             </mat-option>
           </mat-autocomplete>
+          <mat-error
+            *ngIf="
+              staffTransactionFormGroup.controls['searchStaff'].hasError(
+                'required'
+              )
+            "
+          >
+            Nhập tên hoặc phone để tìm nhân viên
+          </mat-error>
           <button
             mat-button
             *ngIf="staffTransactionFormGroup.controls['searchStaff'].value"
@@ -48,7 +59,7 @@
       </div>
     </div>
     <!--Add Products actions-->
-    <div class="row">
+    <div class="row" *ngIf="isTransactionActionsDisplay">
       <div class="col-4 pr-0">
         <mat-form-field class="w-100">
           <mat-label>Loại khuôn</mat-label>
@@ -73,24 +84,70 @@
         <mat-form-field class="w-100">
           <mat-label>Số dây</mat-label>
           <input matInput formControlName="quantity" type="number" required />
+          <button
+            mat-button
+            *ngIf="staffTransactionFormGroup.controls['quantity'].value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="
+              staffTransactionFormGroup.controls['quantity'].setValue(null)
+            "
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              staffTransactionFormGroup.controls['quantity'].hasError(
+                'required'
+              ) ||
+              staffTransactionFormGroup.controls['quantity'].hasError('min')
+            "
+          >
+            Phải lớn hơn 1
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-1 pr-0">
-        <button type="button" mat-mini-fab>
+        <button
+          type="button"
+          mat-mini-fab
+          [disabled]="
+            staffTransactionFormGroup.controls['lashTool'].invalid ||
+            staffTransactionFormGroup.controls['hairType'].invalid ||
+            staffTransactionFormGroup.controls['quantity'].invalid
+          "
+          (click)="addTransaction()"
+        >
           <mat-icon>add</mat-icon>
         </button>
       </div>
     </div>
     <!--Added transactions table-->
-    <div class="row">
+    <div class="row pb-2" *ngIf="transactions.length > 0">
       <div class="col-12">
         <div class="transaction-container">
           <table
             mat-table
-            [dataSource]="transactions"
+            [dataSource]="dataSource"
             class="w-100"
             style="height:300px"
           >
+            <!-- Delete Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td
+                mat-cell
+                *matCellDef="let transaction"
+                style="padding-left:0px"
+              >
+                <mat-icon (click)="onTransactionRemove(transaction)"
+                  >delete</mat-icon
+                >
+              </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
             <!-- Item Name Column -->
             <ng-container matColumnDef="itemName">
               <th mat-header-cell *matHeaderCellDef>Tên</th>
@@ -151,7 +208,7 @@
       </div>
     </div>
     <!--Form actions-->
-    <div class="row">
+    <div class="row" *ngIf="transactions.length > 0">
       <div class="col-12 text-right">
         <button mat-raised-button color="primary" class="mr-2" type="submit">
           Lưu
