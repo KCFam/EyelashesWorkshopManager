@@ -5,13 +5,27 @@ import { AngularFirestore } from "@angular/fire/firestore";
   providedIn: "root"
 })
 export class LashToolService {
-  constructor(private db: AngularFirestore) {}
+  // store lash tool
+  lashTools: string[] = new Array();
 
-  getLashToolsOnce(): Promise<firebase.firestore.DocumentSnapshot> {
-    //output data
-    return this.db.firestore
+  constructor(private db: AngularFirestore) {
+    // Read lash tools in contructor to save reading doc
+    this.db.firestore
       .collection("refs")
       .doc("lash-tools")
-      .get();
+      .get()
+      .then(doc => {
+        Object.keys(doc.data()).forEach(key => {
+          this.lashTools.push(key);
+        });
+      })
+      .catch(err => {
+        console.log("No lash-tools doc in refs", err);
+      });
+  }
+
+  getLashToolsOnce(): string[] {
+    //output data
+    return this.lashTools;
   }
 }

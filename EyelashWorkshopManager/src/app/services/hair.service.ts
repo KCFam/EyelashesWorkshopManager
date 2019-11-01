@@ -5,13 +5,27 @@ import { AngularFirestore } from "@angular/fire/firestore";
   providedIn: "root"
 })
 export class HairService {
-  constructor(private db: AngularFirestore) {}
+  // Store hair types
+  hairTypes: string[] = new Array();
 
-  // Get hair types from ref
-  getHairTypesOnce(): Promise<firebase.firestore.DocumentSnapshot> {
-    return this.db.firestore
+  constructor(private db: AngularFirestore) {
+    // Capture hair types in constructor to save reading doc
+    this.db.firestore
       .collection("refs")
       .doc("hair-types")
-      .get();
+      .get()
+      .then(doc => {
+        Object.keys(doc.data()).forEach(key => {
+          this.hairTypes.push(key);
+        });
+      })
+      .catch(err => {
+        console.log("No hair-types doc in refs", err);
+      });
+  }
+
+  // Get hair types from ref
+  getHairTypesOnce(): string[] {
+    return this.hairTypes;
   }
 }

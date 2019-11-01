@@ -1,6 +1,7 @@
 <div class="container">
   <form [formGroup]="staffTransactionFormGroup" (ngSubmit)="onSubmit()">
     <!--Search Staff-->
+    <!-- #region  -->
     <div class="row">
       <div class="col-md-6">
         <mat-form-field style="width:100%">
@@ -58,7 +59,10 @@
         </mat-form-field>
       </div>
     </div>
+    <!-- #endregion -->
+
     <!--Add Products actions-->
+    <!-- #region  -->
     <div class="row" *ngIf="isTransactionActionsDisplay">
       <div class="col-4 pr-0">
         <mat-form-field class="w-100">
@@ -123,7 +127,10 @@
         </button>
       </div>
     </div>
+    <!-- #endregion -->
+
     <!--Added transactions table-->
+    <!-- #region  -->
     <div class="row pb-2" *ngIf="transactions.length > 0">
       <div class="col-12">
         <div class="transaction-container">
@@ -174,7 +181,9 @@
             <ng-container matColumnDef="pricePerItem">
               <th mat-header-cell *matHeaderCellDef class="text-right">Giá</th>
               <td mat-cell *matCellDef="let transaction" class="text-right">
-                {{ transaction.pricePerItem | currency: "VND":"" }}&nbsp;ngàn
+                {{
+                  transaction.pricePerItem | currency: "VND":"":"1.0-3"
+                }}&nbsp;ngàn
               </td>
               <td mat-footer-cell *matFooterCellDef class="text-right"></td>
             </ng-container>
@@ -185,11 +194,11 @@
               <td mat-cell *matCellDef="let transaction" class="text-right">
                 {{
                   transaction.pricePerItem * transaction.quantity
-                    | currency: "VND":""
+                    | currency: "VND":"":"1.0-3"
                 }}&nbsp;ngàn
               </td>
               <td mat-footer-cell *matFooterCellDef class="text-right">
-                {{ getTotal() | currency: "VND":"" }}&nbsp;ngàn
+                {{ staffTransaction.total | currency: "VND":"" }}&nbsp;ngàn
               </td>
             </ng-container>
 
@@ -207,11 +216,20 @@
         </div>
       </div>
     </div>
+    <!-- #endregion -->
+
     <!--Form actions-->
+    <!-- #region  -->
     <div class="row" *ngIf="transactions.length > 0">
       <div class="col-12 text-right">
-        <button mat-raised-button color="primary" class="mr-2" type="submit">
-          Lưu
+        <button
+          mat-raised-button
+          color="primary"
+          class="mr-2"
+          type="button"
+          (click)="openDialog()"
+        >
+          <mat-icon>save</mat-icon>Lưu
         </button>
         <button
           mat-raised-button
@@ -219,9 +237,21 @@
           type="reset"
           (click)="onCancel()"
         >
-          Hủy
+          <mat-icon>cancel</mat-icon>Hủy
         </button>
       </div>
     </div>
+    <!-- #endregion -->
+
+    <!-- TESTing-->
+    <button
+      mat-raised-button
+      color="primary"
+      class="mr-2"
+      type="button"
+      (click)="openDialog()"
+    >
+      <mat-icon>save</mat-icon>Lưu
+    </button>
   </form>
 </div>

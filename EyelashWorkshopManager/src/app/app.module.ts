@@ -21,6 +21,7 @@ import { environment } from "../environments/environment";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 // material angular
+/* #region   */
 import { MatButtonModule } from "@angular/material/button";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -32,8 +33,12 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatTableModule } from "@angular/material/table";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatBadgeModule } from "@angular/material/badge";
+/* #endregion */
 
 // Pages
+/* #region   */
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
 import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component";
 import { LayoutFooterComponent } from "./_layout/layout-footer/layout-footer.component";
@@ -45,6 +50,8 @@ import { AngularFireModule } from "@angular/fire";
 import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
+import { DialogTransactionComponent } from "./staff-transaction/dialog-transaction.component";
+/* #endregion */
 
 @NgModule({
   declarations: [
@@ -57,7 +64,8 @@ import { StaffTransactionComponent } from "./staff-transaction/staff-transaction
     NewStaffComponent,
     ViewStaffComponent,
     EditStaffComponent,
-    StaffTransactionComponent
+    StaffTransactionComponent,
+    DialogTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -81,8 +89,11 @@ import { StaffTransactionComponent } from "./staff-transaction/staff-transaction
     MatSelectModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule,
+    MatBadgeModule
   ],
+  entryComponents: [DialogTransactionComponent],
   providers: [
     AngularFirestore,
     Location,

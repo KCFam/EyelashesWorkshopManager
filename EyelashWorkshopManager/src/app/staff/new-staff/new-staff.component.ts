@@ -34,20 +34,7 @@ export class NewStaffComponent implements OnInit {
     this.appService.setPageTitle("Thêm Thợ Mới");
 
     // Get lash tool list from services
-    this.lashToolService
-      .getLashToolsOnce()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log("Error no lash tool ref document");
-        } else {
-          Object.keys(doc.data()).forEach(key => {
-            this.lashTools.push(key);
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Error getting document", err);
-      });
+    this.lashTools = this.lashToolService.getLashToolsOnce();
   }
 
   ngOnInit() {}

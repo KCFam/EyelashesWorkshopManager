@@ -1,9 +1,12 @@
 export class StaffTransactionModel {
   id: string = "";
   staffID: string = "";
+  name: string = "";
+  credit: number = 0;
   time: string = "";
   quantity: number = 0;
   total: number = 0;
+  transactionCredit: number = 0;
   transactions: StaffTransactionRowModel[];
 }
 

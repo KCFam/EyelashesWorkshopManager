@@ -12,6 +12,9 @@ import {
   StaffTransactionRowModel
 } from "../models/staff-transaction";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogTransactionComponent } from "./dialog-transaction.component";
+import { RawProductPriceService } from "../services/raw-product-price.service";
 
 @Component({
   selector: "app-staff-transaction",
@@ -49,44 +52,18 @@ export class StaffTransactionComponent implements OnInit {
     private appService: AppService,
     private staffService: StaffService,
     private lashToolService: LashToolService,
-    private hairService: HairService
+    private hairService: HairService,
+    public dialog: MatDialog,
+    private rawProductPricesService: RawProductPriceService
   ) {
     // set page title
     this.appService.setPageTitle("Thêm Hàng Giao");
 
-    /* #region  Get lash tool list from services */
-    this.lashToolService
-      .getLashToolsOnce()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log("Error no lash tool ref document");
-        } else {
-          Object.keys(doc.data()).forEach(key => {
-            this.lashTools.push(key);
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Error getting document", err);
-      });
-    /* #endregion */
+    // Get lash tool list from services
+    this.lashTools = this.lashToolService.getLashToolsOnce();
 
-    /* #region  Get hair types */
-    this.hairService
-      .getHairTypesOnce()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log("No hair types ref document");
-        } else {
-          Object.keys(doc.data()).forEach(key => {
-            this.hairTypes.push(key);
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Error getting document", err);
-      });
-    /* #endregion */
+    // #region  Get hair types
+    this.hairTypes = this.hairService.getHairTypesOnce();
 
     /* #region  Get staffs ref from services */
     this.staffService.getStaffRefRef().then(doc => {
@@ -139,7 +116,8 @@ export class StaffTransactionComponent implements OnInit {
   }
   /* #endregion */
 
-  /* #region  helper function for transaction table summary */
+  // helper function for transaction table summary
+  /* #region  */
   getQuantityTotal(): number {
     let sum: number = 0;
     this.transactions.forEach(item => {
@@ -182,14 +160,18 @@ export class StaffTransactionComponent implements OnInit {
 
   addTransaction() {
     // Capture new transaction data
-    let newTransaction: StaffTransactionRowModel = {
-      itemName: (this.staffTransactionFormGroup.controls["lashTool"]
-        .value as string)
-        .replace(" ", "")
-        .concat("-", this.staffTransactionFormGroup.controls["hairType"].value),
-      quantity: this.staffTransactionFormGroup.controls["quantity"].value,
-      pricePerItem: 100
-    };
+    let newTransaction: StaffTransactionRowModel = new StaffTransactionRowModel();
+    newTransaction.itemName = (this.staffTransactionFormGroup.controls[
+      "lashTool"
+    ].value as string)
+      .replace(/ /g, "")
+      .concat("-", this.staffTransactionFormGroup.controls["hairType"].value);
+    newTransaction.quantity = this.staffTransactionFormGroup.controls[
+      "quantity"
+    ].value;
+    newTransaction.pricePerItem = this.rawProductPricesService.getRawProductPricesOnce()[
+      newTransaction.itemName
+    ];
 
     // If same item name exist, add the quantity otherwise add new data line
     let itemNameIndex = this.transactions.findIndex(
@@ -201,10 +183,45 @@ export class StaffTransactionComponent implements OnInit {
       this.transactions.push(newTransaction);
     }
 
+    // Set Total
+    this.staffTransaction.total = this.getTotal();
+
     // refresh the datasouce
     this.dataSource = new MatTableDataSource<StaffTransactionRowModel>(
       this.transactions
     );
+  }
+
+  // open dialog to confirm transaction data
+  openDialog() {
+    // capture staff transaction data
+    let selectedStaff: StaffRefModel = this.staffTransactionFormGroup.controls[
+      "searchStaff"
+    ].value;
+
+    // Revent invalid data
+    if (selectedStaff.id == null || selectedStaff.id == "") return;
+
+    // capture StaffTransaction Data for the Dialog display
+    this.staffTransaction.staffID = selectedStaff.id;
+    this.staffTransaction.name = selectedStaff.name;
+    this.staffTransaction.transactions = this.transactions;
+
+    // Open dialog for confirmation
+    const dialogRef = this.dialog.open(DialogTransactionComponent, {
+      width: "80%",
+      maxWidth: "300px",
+      data: this.staffTransaction
+    });
+
+    // subscript for dialog close event
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        // Capture result
+        this.staffTransaction = result;
+        this.onSubmit();
+      }
+    });
   }
 
   onSubmit() {
