@@ -15,6 +15,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogTransactionComponent } from "./dialog-transaction.component";
 import { RawProductPriceService } from "../services/raw-product-price.service";
+import { Location } from "@angular/common";
+import { StaffTransactionService } from "../services/staff-transaction.service";
 
 @Component({
   selector: "app-staff-transaction",
@@ -54,7 +56,9 @@ export class StaffTransactionComponent implements OnInit {
     private lashToolService: LashToolService,
     private hairService: HairService,
     public dialog: MatDialog,
-    private rawProductPricesService: RawProductPriceService
+    private rawProductPricesService: RawProductPriceService,
+    private staffTransactionService: StaffTransactionService,
+    private location: Location
   ) {
     // set page title
     this.appService.setPageTitle("Thêm Hàng Giao");
@@ -200,32 +204,57 @@ export class StaffTransactionComponent implements OnInit {
     ].value;
 
     // Revent invalid data
-    if (selectedStaff.id == null || selectedStaff.id == "") return;
+    // if (selectedStaff.id == null || selectedStaff.id == "") return;
 
-    // capture StaffTransaction Data for the Dialog display
-    this.staffTransaction.staffID = selectedStaff.id;
-    this.staffTransaction.name = selectedStaff.name;
-    this.staffTransaction.transactions = this.transactions;
+    // // capture StaffTransaction Data for the Dialog display
+    // this.staffTransaction.staffID = selectedStaff.id;
+    // this.staffTransaction.name = selectedStaff.name;
+    // this.staffTransaction.transactions = this.transactions;
 
-    // Open dialog for confirmation
-    const dialogRef = this.dialog.open(DialogTransactionComponent, {
-      width: "80%",
-      maxWidth: "300px",
-      data: this.staffTransaction
+    // TESTING DATA
+    this.staffTransaction.staffID = "dRf0UrPcC7gknSjdEyEY";
+    this.staffTransaction.name = "test Name";
+    this.staffTransaction.credit = -100000;
+    this.staffTransaction.time = new Date().toISOString();
+    this.staffTransaction.transactions = new Array();
+    this.staffTransaction.transactions.push({
+      itemName: "new1",
+      quantity: 5,
+      pricePerItem: 100
+    });
+    this.staffTransaction.transactions.push({
+      itemName: "new2",
+      quantity: 7,
+      pricePerItem: 100
     });
 
-    // subscript for dialog close event
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
-        // Capture result
-        this.staffTransaction = result;
-        this.onSubmit();
-      }
-    });
+    this.staffTransactionService.addStaffTransaction(this.staffTransaction);
+
+    // // Open dialog for confirmation
+    // const dialogRef = this.dialog.open(DialogTransactionComponent, {
+    //   width: "80%",
+    //   maxWidth: "300px",
+    //   data: this.staffTransaction
+    // });
+
+    // // subscript for dialog close event
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result != null) {
+    //     // Capture result
+    //     this.staffTransaction = result;
+    //     this.onSubmit();
+    //   }
+    // });
   }
 
   onSubmit() {
-    console.log("Submitted");
+    // Modified staff transaction
+    this.staffTransaction.time = new Date().toISOString();
+
+    // Call service to update staff transaction
+
+    // Return to the previous page
+    this.location.back();
   }
 
   onCancel() {

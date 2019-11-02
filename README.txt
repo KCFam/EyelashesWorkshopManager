@@ -18,3 +18,5 @@ npm audit fix --force
 npm install @material/top-app-bar
 
 npm install firebase @angular/fire --save
+
+npm install angular2-signaturepad --save

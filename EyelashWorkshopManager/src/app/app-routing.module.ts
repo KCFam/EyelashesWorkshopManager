@@ -10,6 +10,7 @@ import { NewStaffComponent } from "./staff/new-staff/new-staff.component";
 import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
+import { ProductRefComponent } from "./products/product-ref/product-ref.component";
 
 const routes: Routes = [
   // Main layout
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: "new-staff", component: NewStaffComponent },
       { path: "view-staff", component: ViewStaffComponent },
       { path: "edit-staff/:id", component: EditStaffComponent },
-      { path: "staff-transaction", component: StaffTransactionComponent }
+      { path: "staff-transaction", component: StaffTransactionComponent },
+      { path: "product-info", component: ProductRefComponent }
     ]
   },
 

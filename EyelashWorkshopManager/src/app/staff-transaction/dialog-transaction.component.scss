@@ -1,0 +1,21 @@
+.credit-debt {
+  color: red;
+}
+
+.signature-pad {
+  position: relative;
+
+  span {
+    position: absolute;
+    top: -12px;
+    background: white;
+    border-bottom-right-radius: 10px;
+    padding: 3px;
+  }
+
+  button {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
+}

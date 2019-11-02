@@ -37,6 +37,9 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatBadgeModule } from "@angular/material/badge";
 /* #endregion */
 
+// Signature pad
+import { SignaturePadModule } from "angular2-signaturepad";
+
 // Pages
 /* #region   */
 import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
@@ -51,6 +54,7 @@ import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
 import { DialogTransactionComponent } from "./staff-transaction/dialog-transaction.component";
+import { ProductRefComponent } from './products/product-ref/product-ref.component';
 /* #endregion */
 
 @NgModule({
@@ -65,7 +69,8 @@ import { DialogTransactionComponent } from "./staff-transaction/dialog-transacti
     ViewStaffComponent,
     EditStaffComponent,
     StaffTransactionComponent,
-    DialogTransactionComponent
+    DialogTransactionComponent,
+    ProductRefComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +96,9 @@ import { DialogTransactionComponent } from "./staff-transaction/dialog-transacti
     MatAutocompleteModule,
     MatTableModule,
     MatDialogModule,
-    MatBadgeModule
+    MatBadgeModule,
+    // Signature pad
+    SignaturePadModule
   ],
   entryComponents: [DialogTransactionComponent],
   providers: [

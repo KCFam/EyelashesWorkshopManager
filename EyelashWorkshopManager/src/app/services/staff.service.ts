@@ -11,7 +11,12 @@ export class StaffService {
   // add new staff
   addStaff(newStaff: StaffModel) {
     // Capture firestore refs
-    let staffDocRef = this.db.firestore.collection("staffs").doc();
+
+    let staffDocRef = this.db.firestore
+      .collection("staffs")
+      .doc(
+        newStaff.name + "-" + this.db.firestore.collection("staffs").doc().id
+      );
     let staffRefDocRef = this.db.firestore.collection("refs").doc("staffs");
 
     // Remove input ID

@@ -3,33 +3,100 @@
 </h1>
 <div mat-dialog-content>
   <div class="row">
-    <div class="col-7">
-      Tiền quỹ
-      <span *ngIf="staffTransaction.credit < 0" style="color:red">(thiếu)</span
-      >:
-    </div>
-    <div class="col-5 text-right">
-      {{ 1000 | currency: "VND":"" }}&nbsp;ngàn
+    <div class="col-12">
+      <mat-form-field class="w-100 credit">
+        <mat-label color="primary"
+          >Tiền quỹ
+          <span
+            class="credit-debt"
+            *ngIf="staffTransaction.credit < 0"
+            style="color:red"
+            >(thiếu)</span
+          >:</mat-label
+        >
+        <input
+          matInput
+          class="text-right text-primary"
+          type="text"
+          [value]="staffTransaction.credit | currency: 'VND':''"
+          disabled
+        />
+        <span matSuffix>&nbsp;ngàn</span>
+      </mat-form-field>
     </div>
   </div>
   <div class="row">
-    <div class="col-7">Tiền hàng giao:</div>
-    <div class="col-5 text-right">
-      {{ staffTransaction.total | currency: "VND":"" }}&nbsp;ngàn
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-label>Tổng cộng hàng giao:</mat-label>
+        <input
+          matInput
+          type="text"
+          [value]="staffTransaction.total | currency: 'VND':''"
+          class="text-right text-primary"
+          disabled
+        />
+        <span matSuffix>&nbsp;ngàn</span>
+      </mat-form-field>
     </div>
   </div>
   <div class="row">
-    <div class="col-7">
-      <span *ngIf="staffTransaction.transactionCredit < 0" style="color:red"
-        >Tiền chi:</span
-      >
-      <span *ngIf="staffTransaction.transactionCredit > 0" style="color:blue"
-        >Tiền thu:</span
-      >
-      <span *ngIf="0 == staffTransaction.transactionCredit">Tiền thu:</span>
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-label
+          *ngIf="staffTransaction.transactionCredit < 0; else elseTemplate"
+        >
+          Tiền thu:</mat-label
+        >
+        <ng-template #elseTemplate>
+          <mat-label>Tiền chi:</mat-label>
+        </ng-template>
+
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="staffTransaction.transactionCredit"
+          class="text-right"
+          onClick="this.select()"
+        />
+        <span matSuffix>&nbsp;ngàn</span>
+      </mat-form-field>
     </div>
-    <div class="col-5 text-right">
-      {{ staffTransaction.total | currency: "VND":"" }}&nbsp;ngàn
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-label>Tiền quỹ (còn lại):</mat-label>
+        <input
+          matInput
+          type="text"
+          [value]="
+            staffTransaction.credit +
+              staffTransaction.total +
+              staffTransaction.transactionCredit | currency: 'VND':''
+          "
+          class="text-right text-danger"
+          disabled
+        />
+        <span matSuffix>&nbsp;ngàn</span>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="signature-pad">
+        <span>Ký tên</span>
+        <signature-pad
+          [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()"
+          (onEndEvent)="drawComplete()"
+        >
+        </signature-pad>
+        <button mat-button (click)="clearSignature()" matSuffix mat-icon-button>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -40,6 +107,7 @@
         mat-raised-button
         [mat-dialog-close]="staffTransaction"
         color="primary"
+        (click)="onSubmit()"
       >
         Xác nhận
       </button>

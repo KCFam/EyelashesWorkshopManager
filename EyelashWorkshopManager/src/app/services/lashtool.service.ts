@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFirestore, DocumentReference } from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: "root"
@@ -27,5 +27,9 @@ export class LashToolService {
   getLashToolsOnce(): string[] {
     //output data
     return this.lashTools;
+  }
+
+  getLashToolsForListen(): DocumentReference {
+    return this.db.firestore.collection("refs").doc("lash-tools");
   }
 }

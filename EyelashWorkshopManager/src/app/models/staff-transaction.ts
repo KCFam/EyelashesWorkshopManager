@@ -7,6 +7,7 @@ export class StaffTransactionModel {
   quantity: number = 0;
   total: number = 0;
   transactionCredit: number = 0;
+  signature: string;
   transactions: StaffTransactionRowModel[];
 }
 
