@@ -12,4 +12,5 @@ export class StaffRefModel {
   id: string = "";
   name: string = "";
   phone: string = "";
+  credit: number = 0;
 }

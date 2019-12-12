@@ -50,9 +50,7 @@
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="
-              staffTransactionFormGroup.controls['searchStaff'].setValue('')
-            "
+            (click)="clearSearchedStaff()"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -64,27 +62,20 @@
     <!--Add Products actions-->
     <!-- #region  -->
     <div class="row" *ngIf="isTransactionActionsDisplay">
-      <div class="col-4 pr-0">
+      <div class="col-6 pr-0">
         <mat-form-field class="w-100">
           <mat-label>Loại khuôn</mat-label>
-          <mat-select formControlName="lashTool" required>
-            <mat-option *ngFor="let lashTool of lashTools" [value]="lashTool">
-              {{ lashTool }}
+          <mat-select formControlName="rawProduct" required>
+            <mat-option
+              *ngFor="let rawProduct of rawProductList"
+              [value]="rawProduct"
+            >
+              {{ rawProduct }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-3 pr-0">
-        <mat-form-field class="w-100">
-          <mat-label>Tóc</mat-label>
-          <mat-select formControlName="hairType" required>
-            <mat-option *ngFor="let hairType of hairTypes" [value]="hairType">
-              {{ hairType }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-3 pr-0">
+      <div class="col-4 pr-0">
         <mat-form-field class="w-100">
           <mat-label>Số dây</mat-label>
           <input matInput formControlName="quantity" type="number" required />
@@ -117,8 +108,7 @@
           type="button"
           mat-mini-fab
           [disabled]="
-            staffTransactionFormGroup.controls['lashTool'].invalid ||
-            staffTransactionFormGroup.controls['hairType'].invalid ||
+            staffTransactionFormGroup.controls['rawProduct'].invalid ||
             staffTransactionFormGroup.controls['quantity'].invalid
           "
           (click)="addTransaction()"
@@ -173,7 +163,7 @@
                 {{ transaction.quantity }}
               </td>
               <td mat-footer-cell *matFooterCellDef>
-                {{ getQuantityTotal() }}
+                {{ staffTransaction.quantity | number }}
               </td>
             </ng-container>
 
@@ -181,9 +171,7 @@
             <ng-container matColumnDef="pricePerItem">
               <th mat-header-cell *matHeaderCellDef class="text-right">Giá</th>
               <td mat-cell *matCellDef="let transaction" class="text-right">
-                {{
-                  transaction.pricePerItem | currency: "VND":"":"1.0-3"
-                }}&nbsp;ngàn
+                {{ transaction.pricePerItem | currency: "VND":"":"1.0-3" }}
               </td>
               <td mat-footer-cell *matFooterCellDef class="text-right"></td>
             </ng-container>
@@ -195,7 +183,7 @@
                 {{
                   transaction.pricePerItem * transaction.quantity
                     | currency: "VND":"":"1.0-3"
-                }}&nbsp;ngàn
+                }}
               </td>
               <td mat-footer-cell *matFooterCellDef class="text-right">
                 {{ staffTransaction.total | currency: "VND":"" }}&nbsp;ngàn

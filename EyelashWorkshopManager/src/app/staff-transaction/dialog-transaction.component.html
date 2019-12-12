@@ -46,10 +46,10 @@
         <mat-label
           *ngIf="staffTransaction.transactionCredit < 0; else elseTemplate"
         >
-          Tiền thu:</mat-label
+          Tiền chi:</mat-label
         >
         <ng-template #elseTemplate>
-          <mat-label>Tiền chi:</mat-label>
+          <mat-label>Tiền thu:</mat-label>
         </ng-template>
 
         <input

@@ -26,7 +26,8 @@ export class StaffService {
     let staffRef: StaffRefModel = {
       name: newStaff.name,
       id: staffDocRef.id,
-      phone: newStaff.phone
+      phone: newStaff.phone,
+      credit: newStaff.credit
     };
 
     // Convert Data to firestore obj
@@ -34,7 +35,8 @@ export class StaffService {
     let newStaffRefObj = new Object();
     newStaffRefObj[staffRef.id] = {
       name: staffRef.name,
-      phone: staffRef.phone
+      phone: staffRef.phone,
+      credit: staffRef.credit
     };
 
     // Run Batch
@@ -104,7 +106,8 @@ export class StaffService {
     let staffRef: StaffRefModel = {
       name: updateStaff.name,
       id: id,
-      phone: updateStaff.phone
+      phone: updateStaff.phone,
+      credit: updateStaff.credit
     };
 
     // Convert Data to firestore obj
@@ -112,7 +115,8 @@ export class StaffService {
     let updateStaffRefObj = new Object();
     updateStaffRefObj[id] = {
       name: staffRef.name,
-      phone: staffRef.phone
+      phone: staffRef.phone,
+      credit: staffRef.credit
     };
 
     // Run Batch
@@ -136,5 +140,17 @@ export class StaffService {
       .collection("refs")
       .doc("staffs")
       .get();
+  }
+
+  // get staff credit
+  getStaffCredit(id: string): number {
+    let returnValue: number = 0;
+    this.db.firestore
+      .collection("staffs")
+      .doc(id)
+      .get()
+      .then(data => (returnValue = data.data()["price"] as number))
+      .catch(err => console.log("Failed to read staff " + id, err));
+    return returnValue;
   }
 }
