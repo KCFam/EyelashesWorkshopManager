@@ -1,6 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { firestore } from "firebase/app";
+import { Observable, BehaviorSubject, Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -9,20 +10,13 @@ export class HairService {
   // Store hair types
   hairTypes: string[] = new Array();
 
-  constructor(private db: AngularFirestore) {
-    // Capture hair types in constructor to save reading doc
-    this.db.firestore
+  constructor(private db: AngularFirestore) {}
+
+  getHairTypeRef(): Promise<firestore.DocumentSnapshot> {
+    return this.db.firestore
       .collection("refs")
       .doc("hair-types")
-      .get()
-      .then(doc => {
-        Object.keys(doc.data()).forEach(key => {
-          this.hairTypes.push(key);
-        });
-      })
-      .catch(err => {
-        console.log("No hair-types doc in refs", err);
-      });
+      .get();
   }
 
   // Get hair types from ref
@@ -58,5 +52,25 @@ export class HairService {
       });
 
     console.log(newHairType);
+  }
+
+  getHairTypes(): string[] {
+    let arr: string[] = new Array();
+    this.db.firestore
+      .collection("refs")
+      .doc("hair-types")
+      .get()
+      .then(doc => {
+        arr = doc.data()["array-data"];
+        console.log(arr);
+        // Object.keys(doc.data()).forEach(key => {
+        //   this.hairTypes.push(key);
+        // });
+      })
+      .catch(err => {
+        console.log("No hair-types doc in refs", err);
+      });
+    console.log(arr);
+    return arr;
   }
 }

@@ -54,7 +54,8 @@ import { ViewStaffComponent } from "./staff/view-staff/view-staff.component";
 import { EditStaffComponent } from "./staff/edit-staff/edit-staff.component";
 import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
 import { DialogTransactionComponent } from "./staff-transaction/dialog-transaction.component";
-import { ProductRefComponent } from './products/product-ref/product-ref.component';
+import { ProductRefComponent } from "./products/product-ref/product-ref.component";
+import { HairService } from "./services/hair.service";
 /* #endregion */
 
 @NgModule({

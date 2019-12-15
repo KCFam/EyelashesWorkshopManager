@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 export class AppService {
   pageTitle = "";
 
-  // Emitter for change event
+  // Emitter for page title change event
   pageTitleUpdated = new EventEmitter();
 
   constructor() {}
