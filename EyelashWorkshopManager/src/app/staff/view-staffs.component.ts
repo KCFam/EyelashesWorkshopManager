@@ -4,11 +4,11 @@ import { StaffModel } from "src/app/models/staff";
 import { AppService } from "src/app/services/app.service";
 
 @Component({
-  selector: "app-view-staff",
-  templateUrl: "./view-staff.component.html",
-  styleUrls: ["./view-staff.component.scss"]
+  selector: "app-view-staffs",
+  templateUrl: "./view-staffs.component.html",
+  styleUrls: ["./_staff.component.scss"]
 })
-export class ViewStaffComponent implements OnInit {
+export class ViewStaffsComponent implements OnInit {
   staffs: StaffModel[];
   searchText: string = "";
   searchedStaffs: StaffModel[];
@@ -20,13 +20,19 @@ export class ViewStaffComponent implements OnInit {
     // Set page title
     this.appService.setPageTitle("Thông Tin Thợ");
 
-    // Get Staffs from services
-    this.staffs = this.staffService.getStaffsOnce();
+    // // Get Staffs from services
+    // this.staffs = this.staffService.getStaffsOnce();
 
-    this.searchedStaffs = this.staffs;
+    // this.searchedStaffs = this.staffs;
+    this.loadFireStoreData();
   }
 
   ngOnInit() {}
+
+  loadFireStoreData() {
+    // Get Staffs Ref data
+    this.staffService.getStaffsDoc().onSnapshot(snapshot => {});
+  }
 
   onSearchChange() {
     // capture uppercase search text

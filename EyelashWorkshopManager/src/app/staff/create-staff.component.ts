@@ -7,11 +7,11 @@ import { StaffService } from "src/app/services/staff.service";
 import { Location } from "@angular/common";
 
 @Component({
-  selector: "app-new-staff",
-  templateUrl: "./new-staff.component.html",
-  styleUrls: ["./new-staff.component.scss"]
+  selector: "app-create-staff",
+  templateUrl: "./create-staff.component.html",
+  styleUrls: ["./_staff.component.scss"]
 })
-export class NewStaffComponent implements OnInit {
+export class CreateStaffComponent implements OnInit {
   // declare form control
   staffForm = new FormGroup({
     phone: new FormControl("", Validators.required),

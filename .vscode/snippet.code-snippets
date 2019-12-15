@@ -24,5 +24,11 @@
       "><mat-icon>close</mat-icon></button>"
     ],
     "description": "material clear button"
+  },
+
+  "set-pagetitle": {
+    "prefix": "set-pagetitle",
+    "body": ["// Set page title", "this.appService.setPageTitle(\"$1\");"],
+    "description": "material clear button"
   }
 }

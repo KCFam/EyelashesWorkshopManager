@@ -8,11 +8,11 @@ import { Location } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "app-edit-staff",
-  templateUrl: "./edit-staff.component.html",
-  styleUrls: ["./edit-staff.component.scss"]
+  selector: "app-update-staff",
+  templateUrl: "./update-staff.component.html",
+  styleUrls: ["./_staff.component.scss"]
 })
-export class EditStaffComponent implements OnInit {
+export class UpdateStaffComponent implements OnInit {
   // declare form control
   staffForm = new FormGroup({
     phone: new FormControl("", Validators.required),

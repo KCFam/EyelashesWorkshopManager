@@ -1,13 +1,28 @@
 import { Injectable } from "@angular/core";
 import { StaffModel, StaffRefModel } from "../models/staff";
-import { AngularFirestore } from "@angular/fire/firestore";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from "@angular/fire/firestore";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class StaffService {
+  firestorePath: string = "refs/staffs";
+
   constructor(private db: AngularFirestore) {}
 
+  getStaffsDoc(): firebase.firestore.DocumentReference {
+    return this.db.firestore.doc(this.firestorePath);
+  }
+
+  getStaffsOnce(): Promise<firebase.firestore.DocumentSnapshot> {
+    return this.db.firestore.doc(this.firestorePath).get();
+  }
+
+  //OLD
   // add new staff
   addStaff(newStaff: StaffModel) {
     // Capture firestore refs
@@ -51,34 +66,6 @@ export class StaffService {
       .catch(err => {
         console.log("Error to add new staff", err);
       });
-  }
-
-  // get staffs
-  getStaffsOnce(): StaffModel[] {
-    // capture firestore refs
-    let staffsRef = this.db.firestore.collection("staffs");
-
-    // Create output data
-    let staffs: StaffModel[] = new Array();
-
-    // Retrieve data from firestore
-    staffsRef
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          // Read data from firestore
-          let staff = new StaffModel();
-          staff = doc.data() as StaffModel;
-          staff.id = doc.id;
-          staffs.push(staff);
-        });
-      })
-      .catch(err => {
-        console.log("Error getting documents", err);
-      });
-
-    // Output data
-    return staffs;
   }
 
   // get staff with ID
