@@ -1,22 +1,30 @@
 <div class="container">
-  <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="formGroupStaff" (ngSubmit)="onSubmit()">
+    <!--Phone Input-->
     <div class="row">
       <div class="col-md-6">
         <mat-form-field class="col-12 phone">
-          <input matInput type="tel" formControlName="phone" required />
+          <input
+            matInput
+            id="phone"
+            name="phone"
+            type="tel"
+            formControlName="phone"
+            required
+          />
           <mat-label class="phone"
             ><mat-icon matSuffix>phone_iphone</mat-icon>Phone</mat-label
           >
-          <mat-error *ngIf="staffForm.controls['phone'].invalid"
+          <mat-error *ngIf="f.phone.invalid"
             >Nhập số bất kì nếu không có phone</mat-error
           >
           <button
             mat-button
-            *ngIf="staffForm.controls['phone'].value"
+            *ngIf="f.phone.value"
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="staffForm.controls['phone'].setValue('')"
+            (click)="f.phone.setValue('')"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -25,6 +33,7 @@
     </div>
     <div class="row">
       <div class="col-md-6">
+        <!-- Name Input -->
         <div class="row">
           <div class="col-12">
             <mat-form-field class="col-12 name">
@@ -32,22 +41,24 @@
               <mat-label class="name"
                 ><mat-icon matSuffix>face</mat-icon>Tên</mat-label
               >
-              <mat-error *ngIf="staffForm.controls['name'].invalid"
+              <mat-error *ngIf="f.name.invalid"
                 >Tên không được để trống</mat-error
               >
               <button
                 mat-button
-                *ngIf="staffForm.controls['name'].value"
+                *ngIf="f.name.value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="staffForm.controls['name'].setValue('')"
+                (click)="f.name.setValue('')"
               >
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
           </div>
         </div>
+
+        <!-- Address Input-->
         <div class="row">
           <div class="col-12">
             <mat-form-field class="col-12 address">
@@ -57,18 +68,20 @@
               >
               <button
                 mat-button
-                *ngIf="staffForm.controls['address'].value"
+                *ngIf="f.address.value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="staffForm.controls['credit'].setValue('')"
+                (click)="f.address.setValue('')"
               >
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
           </div>
         </div>
+
         <div class="row">
+          <!-- Credit Input-->
           <div class="col-6">
             <mat-form-field class="col-12 credit">
               <input
@@ -82,16 +95,18 @@
               <span matSuffix>&nbsp;ngàn</span>
               <button
                 mat-button
-                *ngIf="staffForm.controls['credit'].value"
+                *ngIf="f.credit.value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="staffForm.controls['credit'].setValue(0)"
+                (click)="f.credit.setValue(0)"
               >
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
           </div>
+
+          <!-- LashTool Input-->
           <div class="col-6">
             <mat-form-field class="col-12 lashTool">
               <mat-label>Khuôn giao</mat-label>
@@ -104,11 +119,11 @@
               </mat-select>
               <button
                 mat-button
-                *ngIf="staffForm.controls['lashTool'].value"
+                *ngIf="f.lashTool.value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="staffForm.controls['lashTool'].setValue(null)"
+                (click)="f.lashTool.setValue(null)"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -116,6 +131,8 @@
           </div>
         </div>
       </div>
+
+      <!--Note Input-->
       <div class="col-md-6">
         <mat-form-field class="col-12 note">
           <textarea matInput rows="8" formControlName="note"></textarea>
@@ -124,11 +141,11 @@
           >
           <button
             mat-button
-            *ngIf="staffForm.controls['note'].value"
+            *ngIf="f.note.value"
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="staffForm.controls['note'].setValue('')"
+            (click)="f.note.setValue('')"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -142,12 +159,7 @@
           <mat-icon>save</mat-icon>
           Lưu
         </button>
-        <button
-          mat-raised-button
-          color="warn"
-          type="reset"
-          (click)="onCancel()"
-        >
+        <button mat-raised-button color="warn" type="reset" (click)="onReset()">
           <mat-icon>cancel</mat-icon>
           Hủy
         </button>

@@ -42,37 +42,18 @@ import { SignaturePadModule } from "angular2-signaturepad";
 
 // Pages
 /* #region   */
-import { LayoutHeaderComponent } from "./_layout/layout-header/layout-header.component";
 import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component";
-import { LayoutFooterComponent } from "./_layout/layout-footer/layout-footer.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { LoginComponent } from "./login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CreateStaffComponent } from "./staff/create-staff.component";
 import { AngularFireModule } from "@angular/fire";
-import { ViewStaffsComponent } from "./staff/view-staffs.component";
-import { UpdateStaffComponent } from "./staff/update-staff.component";
-import { StaffTransactionComponent } from "./staff-transaction/staff-transaction.component";
-import { DialogTransactionComponent } from "./staff-transaction/dialog-transaction.component";
-import { ProductRefComponent } from "./products/product-ref/product-ref.component";
-import { HairService } from "./services/hair.service";
+import { CreateStaffComponent } from './staff/create-staff.component';
+import { UpdateStaffComponent } from './staff/update-staff.component';
+import { ViewStaffComponent } from './staff/view-staff.component';
+
 /* #endregion */
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LayoutHeaderComponent,
-    LayoutMainComponent,
-    LayoutFooterComponent,
-    DashboardComponent,
-    LoginComponent,
-    CreateStaffComponent,
-    ViewStaffsComponent,
-    UpdateStaffComponent,
-    StaffTransactionComponent,
-    DialogTransactionComponent,
-    ProductRefComponent
-  ],
+  declarations: [AppComponent, LayoutMainComponent, DashboardComponent, CreateStaffComponent, UpdateStaffComponent, ViewStaffComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -101,7 +82,7 @@ import { HairService } from "./services/hair.service";
     // Signature pad
     SignaturePadModule
   ],
-  entryComponents: [DialogTransactionComponent],
+  entryComponents: [],
   providers: [
     AngularFirestore,
     Location,

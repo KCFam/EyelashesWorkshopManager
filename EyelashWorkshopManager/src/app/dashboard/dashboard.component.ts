@@ -1,8 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AppService } from "../services/app.service";
-import { HairService } from "../services/hair.service";
-import { Observable } from "rxjs";
-import { FormControl } from "@angular/forms";
+import { AppService } from "../_services/_app.service";
 
 @Component({
   selector: "app-dashboard",

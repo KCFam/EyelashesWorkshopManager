@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { AppService } from "src/app/services/app.service";
-import { FormControl, Validators, FormGroup } from "@angular/forms";
-import { StaffModel } from "src/app/models/staff";
-import { LashToolService } from "src/app/services/lashtool.service";
-import { StaffService } from "src/app/services/staff.service";
-import { Location } from "@angular/common";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { StaffModel } from "../_models/refs/staff";
+import { AppService } from "../_services/_app.service";
+import { LashToolsService } from "../_services/refs/lash-tools.service";
 
 @Component({
   selector: "app-create-staff",
@@ -12,56 +10,65 @@ import { Location } from "@angular/common";
   styleUrls: ["./_staff.component.scss"]
 })
 export class CreateStaffComponent implements OnInit {
-  // declare form control
-  staffForm = new FormGroup({
-    phone: new FormControl("", Validators.required),
-    name: new FormControl("", Validators.required),
-    address: new FormControl(),
-    credit: new FormControl(),
-    lashTool: new FormControl(),
-    note: new FormControl()
-  });
+  staff: StaffModel = new StaffModel();
+  formGroupStaff: FormGroup;
 
-  lashTools: string[] = new Array(); // lash tool select list
+  lashTools: string[] = new Array<string>();
 
   constructor(
-    private appService: AppService,
-    private lashToolService: LashToolService,
-    private staffService: StaffService,
-    private location: Location
+    private serviceApp: AppService,
+    private serviceLashTool: LashToolsService
   ) {
-    // Set page title
-    this.appService.setPageTitle("Thêm Thợ Mới");
-
-    // Get lash tool list from services
-    this.lashTools = this.lashToolService.getLashToolsOnce();
+    this.serviceApp.setPageTitle("Thêm Thợ");
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Load database data
+    this.loadDatabaseData();
+
+    // Initialize data
+    this.formGroupStaff = new FormGroup({
+      name: new FormControl("", [Validators.required]),
+      credit: new FormControl(0),
+      phone: new FormControl("", [Validators.required]),
+      address: new FormControl(""),
+      lashTool: new FormControl(""),
+      note: new FormControl("")
+    });
+  }
+
+  loadDatabaseData() {
+    // Load LashTools data
+    this.serviceLashTool.getLashToolsRef().onSnapshot(
+      snapshot => {
+        this.lashTools = snapshot.data()["array-data"];
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.formGroupStaff.controls;
+  }
 
   onSubmit() {
-    if (this.staffForm.invalid) return;
+    // stop here if form is invalid
+    if (this.formGroupStaff.invalid) {
+      return;
+    }
 
-    // Convert form data to model
-    var newStaff = new StaffModel();
-    newStaff.phone = this.staffForm.get("phone").value;
-    newStaff.name = this.staffForm.get("name").value;
-    newStaff.address = this.staffForm.get("address").value;
-    newStaff.credit =
-      this.staffForm.get("credit").value == null
-        ? 0
-        : this.staffForm.get("credit").value;
-    newStaff.lashTool = this.staffForm.get("lashTool").value;
-    newStaff.note = this.staffForm.get("note").value;
-
-    // Submit data to database
-    this.staffService.addStaff(newStaff);
-
-    // Return redirect url
-    this.location.back();
+    // display form values on success
+    alert(
+      "SUCCESS!! :-)\n\n" + JSON.stringify(this.formGroupStaff.value, null, 4)
+    );
+    this.staff = this.formGroupStaff.value;
+    console.log(this.staff);
   }
 
-  onCancel() {
-    this.location.back();
+  onReset() {
+    this.formGroupStaff.reset();
   }
 }
