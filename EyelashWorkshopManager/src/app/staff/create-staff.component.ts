@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { StaffModel } from "../_models/refs/staff";
 import { AppService } from "../_services/_app.service";
 import { LashToolsService } from "../_services/refs/lash-tools.service";
+import { StaffsService } from "../_services/refs/staffs.service";
 
 @Component({
   selector: "app-create-staff",
@@ -17,7 +18,8 @@ export class CreateStaffComponent implements OnInit {
 
   constructor(
     private serviceApp: AppService,
-    private serviceLashTool: LashToolsService
+    private serviceLashTools: LashToolsService,
+    private serviceStaffs: StaffsService
   ) {
     this.serviceApp.setPageTitle("Thêm Thợ");
   }
@@ -39,7 +41,7 @@ export class CreateStaffComponent implements OnInit {
 
   loadDatabaseData() {
     // Load LashTools data
-    this.serviceLashTool.getLashToolsRef().onSnapshot(
+    this.serviceLashTools.getLashToolsRef().onSnapshot(
       snapshot => {
         this.lashTools = snapshot.data()["array-data"];
       },
@@ -60,12 +62,12 @@ export class CreateStaffComponent implements OnInit {
       return;
     }
 
-    // display form values on success
-    alert(
-      "SUCCESS!! :-)\n\n" + JSON.stringify(this.formGroupStaff.value, null, 4)
-    );
+    // Capture data from form control
     this.staff = this.formGroupStaff.value;
-    console.log(this.staff);
+    this.staff.credit = this.staff.credit == null ? 0 : this.staff.credit;
+
+    // Submit data to database
+    this.serviceStaffs.createStaff(this.staff);
   }
 
   onReset() {

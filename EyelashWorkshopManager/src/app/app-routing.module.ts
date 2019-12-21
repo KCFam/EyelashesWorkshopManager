@@ -5,6 +5,7 @@ import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component
 
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CreateStaffComponent } from "./staff/create-staff.component";
+import { ViewStaffComponent } from "./staff/view-staff.component";
 
 const routes: Routes = [
   // Main layout
@@ -13,7 +14,8 @@ const routes: Routes = [
     component: LayoutMainComponent,
     children: [
       // { path: "", component: DashboardComponent, pathMatch: "full" },
-      { path: "", component: CreateStaffComponent, pathMatch: "full" }
+      // { path: "", component: CreateStaffComponent, pathMatch: "full" }
+      { path: "", component: ViewStaffComponent, pathMatch: "full" }
     ]
   }
 
