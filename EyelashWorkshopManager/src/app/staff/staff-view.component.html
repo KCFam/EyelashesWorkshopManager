@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <!-- Staff Search by Name or Phone-->
+    <div class="col">
+      <mat-form-field class="search-staff-field">
+        <input matInput [formControl]="formControlSearchedText" />
+        <mat-label class="search-staff"
+          ><mat-icon matSuffix>search</mat-icon>Tìm Tên hoặc Phone</mat-label
+        >
+        <button
+          mat-button
+          *ngIf="formControlSearchedText.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="formControlSearchedText.setValue('')"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- Add New Staff button-->
+    <div class="col-auto" *ngIf="!formControlSearchedText.value">
+      <button
+        class="add-staff-button mr-2"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        routerLink="/create-staff"
+      >
+        <mat-icon>add_circle_outline</mat-icon>
+        Thêm Thợ
+      </button>
+    </div>
+  </div>
+
+  <!-- Staffs Display-->
+  <div class="row">
+    <div class="col-lg-4" *ngFor="let staff of filteredStaffs | async">
+      <app-staff-display-staff [staff]="staff"></app-staff-display-staff>
+    </div>
+  </div>
+</div>

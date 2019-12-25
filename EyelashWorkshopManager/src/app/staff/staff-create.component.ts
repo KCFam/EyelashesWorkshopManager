@@ -4,13 +4,14 @@ import { StaffModel } from "../_models/refs/staff";
 import { AppService } from "../_services/_app.service";
 import { LashToolsService } from "../_services/refs/lash-tools.service";
 import { StaffsService } from "../_services/refs/staffs.service";
+import { Location } from "@angular/common";
 
 @Component({
-  selector: "app-create-staff",
-  templateUrl: "./create-staff.component.html",
+  selector: "app-staff-create",
+  templateUrl: "./staff-create.component.html",
   styleUrls: ["./_staff.component.scss"]
 })
-export class CreateStaffComponent implements OnInit {
+export class StaffCreateComponent implements OnInit {
   staff: StaffModel = new StaffModel();
   formGroupStaff: FormGroup;
 
@@ -19,9 +20,10 @@ export class CreateStaffComponent implements OnInit {
   constructor(
     private serviceApp: AppService,
     private serviceLashTools: LashToolsService,
-    private serviceStaffs: StaffsService
+    private serviceStaffs: StaffsService,
+    private location: Location
   ) {
-    this.serviceApp.setPageTitle("Thêm Thợ");
+    this.serviceApp.setPageTitle("Chỉnh Thông Tin Thợ");
   }
 
   ngOnInit() {
@@ -68,6 +70,9 @@ export class CreateStaffComponent implements OnInit {
 
     // Submit data to database
     this.serviceStaffs.createStaff(this.staff);
+
+    // Go back to view staff
+    this.location.back();
   }
 
   onReset() {

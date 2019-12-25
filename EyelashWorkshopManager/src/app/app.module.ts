@@ -46,14 +46,33 @@ import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFireModule } from "@angular/fire";
-import { CreateStaffComponent } from './staff/create-staff.component';
-import { UpdateStaffComponent } from './staff/update-staff.component';
-import { ViewStaffComponent } from './staff/view-staff.component';
+
+import { StaffCreateComponent } from "./staff/staff-create.component";
+import { StaffUpdateComponent } from "./staff/staff-update.component";
+import { StaffViewComponent } from "./staff/staff-view.component";
+import { StaffDisplayStaffComponent } from "./staff/staff-display-staff.component";
+
+import { RawProductTransactionComponent } from "./raw-product-transaction/raw-product-transaction.component";
+import { RawDisplayStaffComponent } from "./raw-product-transaction/raw-display-staff.component";
+import { RawSearchStaffComponent } from "./raw-product-transaction/raw-search-staff.component";
 
 /* #endregion */
 
 @NgModule({
-  declarations: [AppComponent, LayoutMainComponent, DashboardComponent, CreateStaffComponent, UpdateStaffComponent, ViewStaffComponent],
+  declarations: [
+    AppComponent,
+    LayoutMainComponent,
+    DashboardComponent,
+
+    StaffCreateComponent,
+    StaffUpdateComponent,
+    StaffViewComponent,
+    StaffDisplayStaffComponent,
+
+    RawProductTransactionComponent,
+    RawDisplayStaffComponent,
+    RawSearchStaffComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

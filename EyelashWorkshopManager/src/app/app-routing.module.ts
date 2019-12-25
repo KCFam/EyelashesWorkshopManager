@@ -4,8 +4,10 @@ import { Routes, RouterModule } from "@angular/router";
 import { LayoutMainComponent } from "./_layout/layout-main/layout-main.component";
 
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { CreateStaffComponent } from "./staff/create-staff.component";
-import { ViewStaffComponent } from "./staff/view-staff.component";
+import { StaffCreateComponent } from "./staff/staff-create.component";
+import { StaffViewComponent } from "./staff/staff-view.component";
+import { StaffUpdateComponent } from "./staff/staff-update.component";
+import { RawProductTransactionComponent } from "./raw-product-transaction/raw-product-transaction.component";
 
 const routes: Routes = [
   // Main layout
@@ -13,9 +15,18 @@ const routes: Routes = [
     path: "",
     component: LayoutMainComponent,
     children: [
-      // { path: "", component: DashboardComponent, pathMatch: "full" },
-      // { path: "", component: CreateStaffComponent, pathMatch: "full" }
-      { path: "", component: ViewStaffComponent, pathMatch: "full" }
+      {
+        path: "",
+        component: RawProductTransactionComponent,
+        pathMatch: "full"
+      },
+      { path: "staff-view", component: StaffViewComponent },
+      { path: "staff-create", component: StaffCreateComponent },
+      { path: "staff-update/:id", component: StaffUpdateComponent },
+      {
+        path: "raw-product-transaction",
+        component: RawProductTransactionComponent
+      }
     ]
   }
 

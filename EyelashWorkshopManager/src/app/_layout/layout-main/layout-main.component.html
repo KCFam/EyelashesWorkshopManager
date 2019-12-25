@@ -18,8 +18,14 @@
     >
       <mat-nav-list>
         <a mat-list-item (click)="snav.toggle()" routerLink="">Quản Lý</a>
-        <a mat-list-item (click)="snav.toggle()" routerLink="/view-staffs"
+        <a mat-list-item (click)="snav.toggle()" routerLink="/staff-view"
           >Quản Lý Thợ</a
+        >
+        <a
+          mat-list-item
+          (click)="snav.toggle()"
+          routerLink="/raw-product-transaction"
+          >Thêm Hàng Giao</a
         >
       </mat-nav-list>
     </mat-sidenav>

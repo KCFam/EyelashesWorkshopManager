@@ -1,0 +1,46 @@
+<div class="card mb-2">
+  <div class="card-body">
+    <h5 class="card-title">
+      <div class="row">
+        <div class="col">
+          <mat-icon>face</mat-icon>
+          {{ staff.name }}
+        </div>
+        <div class="col-auto">
+          <button mat-mini-fab routerLink="/staff-update/{{ staff.id }}">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <div class="row">
+        <div class="col-6">
+          <mat-icon>phone_iphone</mat-icon>
+          {{ staff.phone }}
+        </div>
+        <div class="col-6">
+          {{ staff.credit | currency: "VND":"$ " }}&nbsp;ngàn
+        </div>
+      </div>
+    </h6>
+    <div class="row">
+      <div class="col-12">
+        <mat-icon>my_location</mat-icon> {{ staff.address }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <mat-chip-list>
+          <mat-chip *ngFor="let lashTool of staff.lashTool">{{
+            lashTool
+          }}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+    <div class="row" *ngIf="staff.note">
+      <div class="col-12"><mat-icon>note</mat-icon>{{ staff.note }}</div>
+    </div>
+  </div>
+</div>
