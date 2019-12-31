@@ -7,8 +7,8 @@
           {{ staff.name }}
         </div>
         <div class="col-auto">
-          <button mat-mini-fab routerLink="/update-staff/{{ staff.id }}">
-            <mat-icon>edit</mat-icon>
+          <button mat-mini-fab (click)="selectStaff(staff)" type="reset">
+            Chọn
           </button>
         </div>
       </div>

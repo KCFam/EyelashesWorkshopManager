@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { StaffModel } from "../_models/refs/staff";
 
 @Component({
@@ -9,7 +9,13 @@ import { StaffModel } from "../_models/refs/staff";
 export class RawDisplayStaffComponent implements OnInit {
   @Input() staff: StaffModel;
 
+  @Output() selectedStaff = new EventEmitter<StaffModel>();
+
   constructor() {}
 
   ngOnInit() {}
+
+  selectStaff(staff: StaffModel) {
+    this.selectedStaff.emit(staff);
+  }
 }

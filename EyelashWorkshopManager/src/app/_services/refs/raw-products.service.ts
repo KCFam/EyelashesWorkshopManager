@@ -8,4 +8,8 @@ export class RawProductsService {
   firestorePath: string = "refs/raw-products";
 
   constructor(private db: AngularFirestore) {}
+
+  getRawProductRef(): firebase.firestore.DocumentReference {
+    return this.db.firestore.doc(this.firestorePath);
+  }
 }

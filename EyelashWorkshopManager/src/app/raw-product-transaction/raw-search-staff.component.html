@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="!selectedStaff">
   <!-- Staff Search by Name or Phone-->
   <div class="col">
     <mat-form-field>
@@ -21,8 +21,29 @@
 </div>
 
 <!-- Staffs Display-->
-<div class="row">
+<div class="row" *ngIf="!selectedStaff">
   <div class="col-lg-4" *ngFor="let staff of filteredStaffs | async">
-    <app-raw-display-staff [staff]="staff"></app-raw-display-staff>
+    <app-raw-display-staff
+      [staff]="staff"
+      (selectedStaff)="onSelectStaff($event)"
+    ></app-raw-display-staff>
+  </div>
+</div>
+
+<!-- Staff selected Display -->
+<div class="row border-bottom pt-2 pb-2 mb-2" *ngIf="selectedStaff">
+  <div class="col">
+    <mat-icon>face</mat-icon>
+    {{ selectedStaff.name }}
+  </div>
+  <div class="col-auto">
+    <button
+      mat-mini-fab
+      (click)="clearSelectedStaff()"
+      color="warn"
+      type="reset"
+    >
+      <mat-icon appearance="outline">cancel</mat-icon>
+    </button>
   </div>
 </div>

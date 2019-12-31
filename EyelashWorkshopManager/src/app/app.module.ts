@@ -55,6 +55,7 @@ import { StaffDisplayStaffComponent } from "./staff/staff-display-staff.componen
 import { RawProductTransactionComponent } from "./raw-product-transaction/raw-product-transaction.component";
 import { RawDisplayStaffComponent } from "./raw-product-transaction/raw-display-staff.component";
 import { RawSearchStaffComponent } from "./raw-product-transaction/raw-search-staff.component";
+import { RawDisplayAddedProductComponent } from "./raw-product-transaction/raw-display-added-product.component";
 
 /* #endregion */
 
@@ -71,7 +72,8 @@ import { RawSearchStaffComponent } from "./raw-product-transaction/raw-search-st
 
     RawProductTransactionComponent,
     RawDisplayStaffComponent,
-    RawSearchStaffComponent
+    RawSearchStaffComponent,
+    RawDisplayAddedProductComponent
   ],
   imports: [
     BrowserModule,

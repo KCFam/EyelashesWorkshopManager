@@ -1,6 +1,61 @@
 <div class="container">
   <form [formGroup]="rawProductTransactionFormGroup" (ngSubmit)="onSubmit()">
     <!-- Search Staff -->
-    <app-raw-search-staff></app-raw-search-staff>
+    <app-raw-search-staff #p></app-raw-search-staff>
+
+    <!-- Add Raw Transaction -->
+    <div class="row" *ngIf="p.selectedStaff">
+      <div class="col-6 pr-0">
+        <mat-form-field class="w-100">
+          <mat-label>Loại khuôn</mat-label>
+          <mat-select formControlName="rawProduct" required>
+            <mat-option
+              *ngFor="let rawProduct of rawProducts"
+              [value]="rawProduct"
+            >
+              {{ rawProduct.id }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-4 pr-0">
+        <mat-form-field class="w-100">
+          <mat-label>Số dây</mat-label>
+          <input matInput formControlName="quantity" type="number" required />
+          <button
+            mat-button
+            *ngIf="f.quantity.value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="f.quantity.setValue(null)"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              f.quantity.hasError('required') || f.quantity.hasError('min')
+            "
+          >
+            Phải lớn hơn 1
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-1 pr-0">
+        <button
+          type="button"
+          mat-mini-fab
+          [disabled]="f.rawProduct.invalid || f.quantity.invalid"
+          (click)="addTransaction()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <app-raw-display-added-product
+      [dataSource]="dataSource"
+      *ngIf="rawProductAdded.length > 0"
+    ></app-raw-display-added-product>
   </form>
 </div>

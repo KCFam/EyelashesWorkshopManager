@@ -14,6 +14,7 @@ export class RawSearchStaffComponent implements OnInit {
   formControlSearchedText = new FormControl();
   filteredStaffs: Observable<StaffModel[]>;
   staffs: StaffModel[] = [];
+  selectedStaff: StaffModel;
 
   constructor(private serviceStaff: StaffsService) {}
 
@@ -46,5 +47,13 @@ export class RawSearchStaffComponent implements OnInit {
         staff.name.toLowerCase().indexOf(filterValue) !== -1 ||
         staff.phone.toLowerCase().indexOf(filterValue) !== -1
     );
+  }
+
+  onSelectStaff(staff: StaffModel) {
+    this.selectedStaff = staff;
+  }
+
+  clearSelectedStaff() {
+    this.selectedStaff = null;
   }
 }
